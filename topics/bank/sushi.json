@@ -1,0 +1,66 @@
+{
+  "id": "sushi",
+  "word": "寿司",
+  "neutralGloss": "酢飯と魚介などを組み合わせた日本の料理。世界的に人気。",
+  "generalFamiliarity": 5,
+  "category": "文化",
+  "createdAt": "2026-08-30T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "酢飯に魚介などを合わせた日本発祥の料理で、世界中に広まっている。",
+      "tier": "surface",
+      "source": "Wikipedia: 寿司",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "握り寿司、巻き寿司、ちらし寿司、いなり寿司など多くの種類がある。",
+      "tier": "surface",
+      "source": "Wikipedia: 寿司 / 種類",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "醤油をつけ、わさびやガリ（甘酢生姜）を添えて食べることが多い。",
+      "tier": "surface",
+      "source": "Wikipedia: 寿司",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "原型は「なれずし」で、魚を米に漬けて発酵させ保存する、東南アジア〜東アジアに広がる技法に由来する。",
+      "tier": "specific",
+      "source": "Wikipedia: 寿司 / 歴史",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "いま主流の「握り寿司」は江戸時代後期の江戸（東京）で発達した、比較的新しい形式。",
+      "tier": "specific",
+      "source": "Wikipedia: 江戸前寿司",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "初期の握り寿司は屋台で供される、現在より大ぶりで手軽なファストフードのような食べ物だった。",
+      "tier": "specific",
+      "source": "Wikipedia: 江戸前寿司 / 歴史",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "発酵させる「なれずし」では、漬け込んだ米は食べずに捨てることが多く、本来の目的は米ではなく魚の保存だった。",
+      "tier": "surprising",
+      "source": "Wikipedia: なれずし",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "「カリフォルニアロール」など海外で生まれた巻き寿司が、日本に逆輸入されている。",
+      "tier": "surprising",
+      "source": "Wikipedia: カリフォルニアロール",
+      "guessability": 2
+    }
+  ]
+}

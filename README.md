@@ -5,22 +5,43 @@
 
 ---
 
-## 現在地: Phase 1 — お題生成の品質検証
+## 設計方針: 本番プレイ中は LLM を呼ばない
 
-技術的にいちばん危ないのは「お題（ワード＋8つの事実）をAIが安定して作れるか」。
-まずそこだけを CLI で検証する（[GAME_SPEC.md](GAME_SPEC.md) 7章）。
+お題（ワード＋8つの事実）は**事前に作ってお題バンクに置く**。本番はバンクから配るだけ。
+API は「お題を作る開発ツール」であって、ランタイムの依存ではない。
 
 ```
-ワード → お題生成AI → 構造チェック(コード) → 内容チェック(LLM) → [NGなら部分修正ループ]
+開発時:  ワード → お題生成AI → 検証AI → 人がレビュー → topics/bank/*.json に追加
+本番:    サーバが topics/bank/ から未使用のお題をランダムに配る（LLM なし）
 ```
 
-| モジュール | 場所 | 役割 |
+## お題バンク
+
+`topics/bank/` に vetted なお題。テスト運転用の初期8件を Claude が手作りで用意済み:
+
+| id | ワード | カテゴリ |
 |---|---|---|
-| お題スキーマ | [src/schema/topic.ts](src/schema/topic.ts) | ワード＋8事実（表層/具体/意外）の型 |
-| お題生成AI | [src/generation/](src/generation/) | ワードからお題JSONを生成 + 部分修正 |
-| 構造チェック | [src/validation/checkStructure.ts](src/validation/checkStructure.ts) | **API不要**。階層配分・guessabilityとtierの食い違い・重複を機械的に判定 |
-| 内容チェック | [src/validation/verifyTopic.ts](src/validation/verifyTopic.ts) | LLM判定。事実性・矛盾・「潜入者が会話に混ざれる題材か」 |
-| パイプライン | [src/pipeline.ts](src/pipeline.ts) | 生成→検証→再生成ループ |
+| eiffel-tower | エッフェル塔 | 建造物 |
+| great-wall | 万里の長城 | 建造物 |
+| great-pyramid | ギザの大ピラミッド | 歴史 |
+| napoleon | ナポレオン・ボナパルト | 人物 |
+| sushi | 寿司 | 文化 |
+| black-hole | ブラックホール | 科学 |
+| aurora | オーロラ | 自然 |
+| dodo | ドードー | 生物 |
+
+各お題 = 表層（誰でも言える）2〜3 / 具体（踏み込むと矛盾）3〜4 / 意外（裏事実）1〜2 の8事実。
+
+## モジュール
+
+| 場所 | 役割 |
+|---|---|
+| [src/schema/topic.ts](src/schema/topic.ts) | お題の型（Zod） |
+| [src/store/topicStore.ts](src/store/topicStore.ts) | バンクの読み込み・ランダム配布・下書き保存 |
+| [src/validation/checkStructure.ts](src/validation/checkStructure.ts) | **API不要**の構造チェック（階層配分、guessability と tier の食い違い、重複、題材の一般性） |
+| [src/validation/verifyTopic.ts](src/validation/verifyTopic.ts) | LLM 判定（事実性・矛盾・playable）。開発ツール専用 |
+| [src/generation/](src/generation/) | お題生成AI + 部分修正 |
+| [src/pipeline.ts](src/pipeline.ts) | 生成→検証→再生成ループ |
 
 ## セットアップ
 
@@ -28,23 +49,22 @@
 
 ```bash
 npm install
-cp .env.example .env      # Windows: copy .env.example .env
-# .env に ANTHROPIC_API_KEY を入れる
 ```
 
 ## 使い方
 
 ```bash
-npm run demo        # APIキー不要。同梱サンプルお題に構造チェックだけ実行
-npm run gen         # 本番: ワード入力 → 生成 → 検証（要APIキー）
-npm test            # 構造チェックのユニットテスト
+npm run demo        # APIキー不要。バンク全お題に構造チェック
+npm test            # ユニットテスト（バンク全件の構造チェック含む）
 npm run typecheck
+
+# お題を追加したいとき（要 ANTHROPIC_API_KEY を .env に設定）
+npm run gen         # ワード入力 → 生成 → 検証。合格すると topics/out/ に下書き保存
+                    # 中身を確認して topics/bank/ に移すとバンク入り
 ```
 
-`npm run gen` は空 Enter で題材もAIにおまかせ。合格したお題は `topics/<id>.json` に保存される。
+## いま検証したいこと（GAME_SPEC.md 8.2.1）
 
-## Phase 1 で見たいこと（GAME_SPEC.md 8.2.1）
-
-- 「一般知識との差分」が効いたお題を安定生成できるか
-- AI生成の8事実に誤り・諸説ありがどれだけ混じるか（→ 出典/裏取りの要否）
+- 「一般知識との差分」が効いたお題を安定生成できるか（`npm run gen` を回して確認）
 - 潜入者にワードのみ渡すか、1行の中立説明も渡すか
+- 監査をランタイム LLM 無しでやれるか

@@ -9,6 +9,6 @@ dist/
 .idea/
 *.log
 
-# 生成物（手作りサンプルだけ残す）
-topics/*.json
-!topics/sample-topic.json
+# お題バンク（topics/bank/）は本体。commit する。
+# 生成ツール npm run gen の出力は topics/out/ に置き、レビュー後 bank/ へ手動で移す。
+topics/out/

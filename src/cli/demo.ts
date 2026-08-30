@@ -1,35 +1,41 @@
-import { loadTopic } from "../store/topicStore.js";
+import { loadAllBank, listBank } from "../store/topicStore.js";
 import { checkStructure } from "../validation/checkStructure.js";
-import { printTopic, printValidation } from "./report.js";
+import { tierCounts } from "../schema/topic.js";
 
 /**
- * オフラインデモ（API キー不要）。同梱サンプルお題に構造チェックだけをかける。
+ * お題バンクの構造チェック（API 不要）。
  *   npm run demo
+ *
+ * bank/ の全お題に checkStructure をかけ、配れる状態か一覧で確認する。
+ * 事実性・矛盾・playable の判定は npm run gen（要APIキー）。
  */
 async function main() {
-  const topic = await loadTopic("sample-topic");
-  printTopic(topic);
+  const ids = await listBank();
+  if (ids.length === 0) {
+    console.log("topics/bank/ にお題がありません。");
+    return;
+  }
 
-  const issues = checkStructure(topic);
-  printValidation({
-    ok: issues.filter((i) => i.severity === "error").length === 0 && false, // LLM未実行なので ok にはしない
-    errors: issues.filter((i) => i.severity === "error"),
-    warnings: issues.filter((i) => i.severity === "warn"),
-  });
+  const topics = await loadAllBank();
+  let ng = 0;
 
-  console.log("※ これは構造チェックのみ。事実性・矛盾・playable の判定は npm run gen（要APIキー）で。");
+  for (const t of topics) {
+    const issues = checkStructure(t);
+    const errors = issues.filter((i) => i.severity === "error");
+    const warns = issues.filter((i) => i.severity === "warn");
+    const c = tierCounts(t);
+    const mark = errors.length === 0 ? "✅" : "❌";
+    if (errors.length) ng++;
+    console.log(
+      `${mark} ${t.id.padEnd(16)} ${t.word.padEnd(14)} 表${c.surface}/具${c.specific}/意${c.surprising}  一般性${t.generalFamiliarity}` +
+        (errors.length || warns.length ? `  (err ${errors.length} / warn ${warns.length})` : ""),
+    );
+    for (const e of errors) console.log(`     ❌ ${e.code} ${e.target}: ${e.message}`);
+    for (const w of warns) console.log(`     ⚠ ${w.code} ${w.target}: ${w.message}`);
+  }
 
-  console.log("\n--- わざと配分を壊した版 ---");
-  const broken = structuredClone(topic);
-  broken.facts[0]!.tier = "specific"; // 表層を1つ減らして具体を増やす
-  broken.facts[1]!.tier = "specific";
-  broken.facts[6]!.guessability = 5; // 意外なのに誰でも言える
-  const brokenIssues = checkStructure(broken);
-  printValidation({
-    ok: false,
-    errors: brokenIssues.filter((i) => i.severity === "error"),
-    warnings: brokenIssues.filter((i) => i.severity === "warn"),
-  });
+  console.log(`\n${topics.length} 件中 ${topics.length - ng} 件が構造チェック合格。`);
+  process.exitCode = ng === 0 ? 0 : 1;
 }
 
 main().catch((err) => {

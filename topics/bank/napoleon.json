@@ -1,0 +1,66 @@
+{
+  "id": "napoleon",
+  "word": "ナポレオン・ボナパルト",
+  "neutralGloss": "19世紀初めのフランスの軍人・皇帝。ヨーロッパを席巻した人物。",
+  "generalFamiliarity": 5,
+  "category": "人物",
+  "createdAt": "2026-08-30T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "19世紀初頭のフランスの軍人・政治家で、のちに皇帝になった。",
+      "tier": "surface",
+      "source": "Wikipedia: ナポレオン・ボナパルト",
+      "guessability": 4
+    },
+    {
+      "id": "f2",
+      "text": "数々の戦争でヨーロッパの広い範囲を支配したが、最終的に敗れて島に流された。",
+      "tier": "surface",
+      "source": "Wikipedia: ナポレオン・ボナパルト",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "小柄というイメージや、片手を上着の内側に入れた肖像画で知られる。",
+      "tier": "surface",
+      "source": "Wikipedia: ナポレオン・ボナパルト / 図像",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "地中海のコルシカ島の生まれで、フランス革命後の混乱の中で軍人として頭角を現した。",
+      "tier": "specific",
+      "source": "Wikipedia: ナポレオン・ボナパルト / 生涯",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "1804年に皇帝に即位し、1815年のワーテルローの戦いで最終的に敗北した。",
+      "tier": "specific",
+      "source": "Wikipedia: ナポレオン・ボナパルト / 年表",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "「ナポレオン法典（フランス民法典）」を制定し、所有権や契約の原則など、その後の各国の法制度に大きな影響を与えた。",
+      "tier": "specific",
+      "source": "Wikipedia: ナポレオン法典",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "実際の身長は当時のフランス人としてほぼ平均的で、「背が低い」印象は英国の風刺画や仏英の単位の違いから生まれた誤解とされる。",
+      "tier": "surprising",
+      "source": "Wikipedia: ナポレオン・ボナパルト / 身長の俗説",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "最初の流刑地エルバ島を脱出してフランスに戻り、約100日間だけ復位した（「百日天下」）。",
+      "tier": "surprising",
+      "source": "Wikipedia: 百日天下",
+      "guessability": 2
+    }
+  ]
+}

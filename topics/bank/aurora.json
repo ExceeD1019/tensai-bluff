@@ -1,0 +1,66 @@
+{
+  "id": "aurora",
+  "word": "オーロラ",
+  "neutralGloss": "極地の夜空に光のカーテンのように現れる自然現象。",
+  "generalFamiliarity": 4,
+  "category": "自然",
+  "createdAt": "2026-08-30T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "主に極地方の夜空に現れる、カーテンや帯のような光の現象。",
+      "tier": "surface",
+      "source": "Wikipedia: オーロラ",
+      "guessability": 4
+    },
+    {
+      "id": "f2",
+      "text": "緑・赤・紫などの色で光り、これを見るための観光旅行が人気。",
+      "tier": "surface",
+      "source": "Wikipedia: オーロラ",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "太陽から飛んでくる荷電粒子（太陽風）が地球の大気の原子・分子に衝突して発光する。",
+      "tier": "specific",
+      "source": "Wikipedia: オーロラ / 発生機構",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "北半球のものを「北極光（オーロラ・ボレアリス）」、南半球のものを「南極光（オーロラ・オーストラリス）」と呼ぶ。",
+      "tier": "specific",
+      "source": "Wikipedia: オーロラ",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "発光する高度はおよそ100〜300キロメートルで、色はぶつかる大気の種類と高度で決まる（緑や赤は酸素、青や紫は窒素）。",
+      "tier": "specific",
+      "source": "Wikipedia: オーロラ / 色",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "地球の磁場に導かれるため、両極を取り巻く「オーロラ帯（オーロラオーバル）」に沿って出やすい。",
+      "tier": "specific",
+      "source": "Wikipedia: オーロラ帯",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "木星や土星など、磁場と大気をもつ他の惑星でもオーロラが観測されている。",
+      "tier": "surprising",
+      "source": "Wikipedia: オーロラ / 地球外のオーロラ",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "「スティーブ（STEVE）」と呼ばれる紫色の光の筋は、近年まで正体不明で、市民の観測をきっかけに研究が進んだ別種の発光現象。",
+      "tier": "surprising",
+      "source": "Wikipedia: STEVE (大気現象)",
+      "guessability": 1
+    }
+  ]
+}

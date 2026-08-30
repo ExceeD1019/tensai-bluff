@@ -1,0 +1,66 @@
+{
+  "id": "great-wall",
+  "word": "万里の長城",
+  "neutralGloss": "中国北部にある、非常に長い城壁。世界的に有名な建造物。",
+  "generalFamiliarity": 5,
+  "category": "建造物",
+  "createdAt": "2026-08-30T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "中国北部に築かれた長大な城壁で、中国を代表する世界遺産。",
+      "tier": "surface",
+      "source": "Wikipedia: 万里の長城",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "北方の遊牧民の侵入を防ぐために築かれた防衛施設。",
+      "tier": "surface",
+      "source": "Wikipedia: 万里の長城 / 目的",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "尾根伝いに長く伸び、一定間隔で見張り台（望楼・敵台）が置かれている。",
+      "tier": "surface",
+      "source": "Wikipedia: 万里の長城 / 構造",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "現在よく見られる城壁の大部分は明代（14〜17世紀）に築かれたもので、秦の始皇帝時代の遺構はごく一部しか残っていない。",
+      "tier": "specific",
+      "source": "Wikipedia: 万里の長城 / 歴史",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "分岐や重複を含めた総延長は2万キロメートルを超えるとされる（中国当局の2012年発表）。",
+      "tier": "specific",
+      "source": "中国国家文物局 2012年調査",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "建材は地域で異なり、東部はレンガ（磚）や石、西部は土を突き固めた版築が多い。",
+      "tier": "specific",
+      "source": "Wikipedia: 万里の長城 / 建材",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "「宇宙から肉眼で見える唯一の建造物」という有名な話は誤りで、特別な条件なしに軌道上から視認するのは難しいとされる。",
+      "tier": "surprising",
+      "source": "Wikipedia: 万里の長城 / 俗説",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "単一の連続した壁ではなく、複数の時代に別々のルートで築かれた城壁群の総称。",
+      "tier": "surprising",
+      "source": "Wikipedia: 万里の長城",
+      "guessability": 2
+    }
+  ]
+}

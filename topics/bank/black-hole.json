@@ -1,0 +1,66 @@
+{
+  "id": "black-hole",
+  "word": "ブラックホール",
+  "neutralGloss": "非常に強い重力で光さえ抜け出せない天体。宇宙の謎の代表格。",
+  "generalFamiliarity": 4,
+  "category": "科学",
+  "createdAt": "2026-08-30T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "重力が非常に強く、光さえ脱出できない天体。",
+      "tier": "surface",
+      "source": "Wikipedia: ブラックホール",
+      "guessability": 4
+    },
+    {
+      "id": "f2",
+      "text": "重い星が一生の終わりに自らの重力で潰れてできると考えられている。",
+      "tier": "surface",
+      "source": "Wikipedia: ブラックホール / 形成",
+      "guessability": 3
+    },
+    {
+      "id": "f3",
+      "text": "SFや映画で「何でも吸い込むもの」「別世界への入り口」として描かれる。",
+      "tier": "surface",
+      "source": "Wikipedia: ブラックホール / 文化",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "光さえ脱出できなくなる境界を「事象の地平面（イベント・ホライズン）」と呼ぶ。",
+      "tier": "specific",
+      "source": "Wikipedia: 事象の地平面",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "2019年、人類初のブラックホールの「影」の画像が、銀河M87の中心にある天体で撮影・公開された。",
+      "tier": "specific",
+      "source": "Event Horizon Telescope 2019年発表",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "多くの銀河の中心には、太陽の数百万〜数十億倍の質量を持つ「超大質量ブラックホール」があるとされる。天の川銀河の中心にもある。",
+      "tier": "specific",
+      "source": "Wikipedia: 超大質量ブラックホール",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "ブラックホールはごくわずかに熱放射（ホーキング放射）をして質量を失い、極めて長い時間をかけて蒸発すると理論的に予言されている。",
+      "tier": "surprising",
+      "source": "Wikipedia: ホーキング放射",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "落下する物体は、外から見ると事象の地平面に近づくほど時間が遅れて見え、到達する瞬間は永遠に観測できない。",
+      "tier": "surprising",
+      "source": "Wikipedia: ブラックホール / 一般相対論的効果",
+      "guessability": 2
+    }
+  ]
+}

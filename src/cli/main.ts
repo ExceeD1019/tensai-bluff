@@ -2,12 +2,15 @@ import { createInterface } from "node:readline/promises";
 import { stdin, stdout } from "node:process";
 import { assertKeyPresent, config } from "../config.js";
 import { runPipeline } from "../pipeline.js";
-import { saveTopic } from "../store/topicStore.js";
+import { saveDraft } from "../store/topicStore.js";
 import { printTopic, printValidation } from "./report.js";
 
 /**
- * お題生成AI + 検証AI の CLI（GAME_SPEC.md 7章）。
+ * お題生成ツール（GAME_SPEC.md 7章）。開発時に使う。
  *   npm run gen
+ *
+ * 合格したお題は topics/out/ に保存される。中身を確認して topics/bank/ へ手動で移すと
+ * 本番のお題バンクに入る（ランタイムはバンクから配るだけ、LLM を呼ばない）。
  */
 async function main() {
   const rl = createInterface({ input: stdin, output: stdout });
@@ -38,8 +41,8 @@ async function main() {
       printValidation(outcome.result);
 
       if (outcome.ok) {
-        const file = await saveTopic(outcome.topic);
-        console.log(`\n保存: ${file}`);
+        const file = await saveDraft(outcome.topic);
+        console.log(`\n下書き保存: ${file}\n（確認して topics/bank/ に移すとお題バンクに入ります）`);
       } else {
         console.log(`\n未合格: ${outcome.giveUpReason ?? ""}`);
       }
