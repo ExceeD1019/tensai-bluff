@@ -8,6 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "start": "tsx server/index.ts",
     "serve": "tsx server/index.ts",
     "gen": "tsx src/cli/main.ts",
     "demo": "tsx src/cli/demo.ts",
@@ -18,13 +19,13 @@
     "@anthropic-ai/sdk": "^0.122.0",
     "dotenv": "^17.4.2",
     "openai": "^7.8.0",
+    "tsx": "^4.23.13",
     "ws": "^8.21.3",
     "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
     "@types/ws": "^8.18.1",
-    "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vitest": "^4.1.11"
   }

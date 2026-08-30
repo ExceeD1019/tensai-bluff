@@ -17,8 +17,24 @@ npm run serve
 起動すると接続先が表示される:
 
 - **同じWi-Fiの友達** → 表示される `http://192.168.x.x:3000` をそのまま共有
-- **離れた友達** → 別ターミナルで `npx cloudflared tunnel --url http://localhost:3000`。
-  出てくる `https://xxxx.trycloudflare.com` を共有（ポート開放不要）
+- **離れた友達（オンライン）** → 下記いずれか
+
+### オンラインで遊ぶ
+
+**A. トンネル（一番早い・無料・アカウント不要）**
+`npm run serve` を動かしたまま、別ターミナルで:
+```
+npx cloudflared tunnel --url http://localhost:3000
+```
+出てくる `https://xxxx.trycloudflare.com` を友達に共有。このPCを起動している間だけ有効。
+URLは起動ごとに変わる。（`cloudflared` の初回はバイナリDLで少し待つ）
+
+**B. どこかにデプロイ（URL固定・PCを閉じてOK）**
+このサーバはそのままデプロイできる（`npm start` で起動、`PORT` 環境変数を読む、ビルド不要）。
+Render / Railway / Fly.io など Node が動く無料枠で:
+- Build command: `npm install`
+- Start command: `npm start`
+- お題バンク（`topics/bank/`）はリポジトリに入っているので追加設定不要
 
 ブラウザで開く → 名前を入れて「新しい部屋を作る」→ 出た部屋コードを全員に伝える → 各自コードで参加 →
 ホストが「開始」。3人から可（推奨5〜6人）。
