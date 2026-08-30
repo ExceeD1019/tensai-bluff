@@ -1,0 +1,28 @@
+{
+  "name": "tensai-bluff",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "天才を装うゲーム（仮） Phase 1: お題生成AI + 検証AI の CLI プロトタイプ",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "gen": "tsx src/cli/main.ts",
+    "demo": "tsx src/cli/demo.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
+    "dotenv": "^17.4.2",
+    "openai": "^7.8.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.11"
+  }
+}

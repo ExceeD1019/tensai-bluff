@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.local
+*.local
+dist/
+*.tsbuildinfo
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# 生成物（手作りサンプルだけ残す）
+topics/*.json
+!topics/sample-topic.json
