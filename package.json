@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "天才を装うゲーム（仮） Phase 1: お題生成AI + 検証AI の CLI プロトタイプ",
+  "description": "天才を装うゲーム（仮）— オンライン正体隠匿パーティーゲーム",
   "engines": {
     "node": ">=20"
   },
   "scripts": {
+    "serve": "tsx server/index.ts",
     "gen": "tsx src/cli/main.ts",
     "demo": "tsx src/cli/demo.ts",
     "typecheck": "tsc --noEmit",
@@ -17,10 +18,12 @@
     "@anthropic-ai/sdk": "^0.122.0",
     "dotenv": "^17.4.2",
     "openai": "^7.8.0",
+    "ws": "^8.21.3",
     "zod": "^4.5.4"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vitest": "^4.1.11"

@@ -5,72 +5,56 @@
 
 ---
 
-## 設計方針: 本番プレイ中は LLM を呼ばない
+## テストプレイ（このPCをサーバーにする）
 
-お題（ワード＋8つの事実）は**事前に作ってお題バンクに置く**。本番はバンクから配るだけ。
-API は「お題を作る開発ツール」であって、ランタイムの依存ではない。
-
-```
-開発時:  ワード → お題生成AI → 検証AI → 人がレビュー → topics/bank/*.json に追加
-本番:    サーバが topics/bank/ から未使用のお題をランダムに配る（LLM なし）
-```
-
-## お題バンク
-
-`topics/bank/` に vetted なお題。テスト運転用の初期8件を Claude が手作りで用意済み:
-
-| id | ワード | カテゴリ |
-|---|---|---|
-| eiffel-tower | エッフェル塔 | 建造物 |
-| great-wall | 万里の長城 | 建造物 |
-| great-pyramid | ギザの大ピラミッド | 歴史 |
-| napoleon | ナポレオン・ボナパルト | 人物 |
-| sushi | 寿司 | 文化 |
-| black-hole | ブラックホール | 科学 |
-| aurora | オーロラ | 自然 |
-| dodo | ドードー | 生物 |
-
-各お題 = 表層（誰でも言える）2〜3 / 具体（踏み込むと矛盾）3〜4 / 意外（裏事実）1〜2 の8事実。
-
-## モジュール
-
-| 場所 | 役割 |
-|---|---|
-| [src/schema/topic.ts](src/schema/topic.ts) | お題の型（Zod） |
-| [src/store/topicStore.ts](src/store/topicStore.ts) | バンクの読み込み・ランダム配布・下書き保存 |
-| [src/validation/checkStructure.ts](src/validation/checkStructure.ts) | **API不要**の構造チェック（階層配分、guessability と tier の食い違い、重複、題材の一般性） |
-| [src/validation/verifyTopic.ts](src/validation/verifyTopic.ts) | LLM 判定（事実性・矛盾・playable）。開発ツール専用 |
-| [src/generation/](src/generation/) | お題生成AI + 部分修正 |
-| [src/pipeline.ts](src/pipeline.ts) | 生成→検証→再生成ループ |
-
-## セットアップ
-
-必要: Node.js 20 以上。
+必要: Node.js 20 以上。音声は Discord など別で用意（このアプリは進行と情報配布だけ）。
 
 ```bash
 npm install
+npm run serve
 ```
 
-## 使い方
+起動すると接続先が表示される:
 
-```bash
-npm run demo        # APIキー不要。バンク全お題に構造チェック
-npm test            # ユニットテスト（バンク全件の構造チェック含む）
-npm run typecheck
+- **同じWi-Fiの友達** → 表示される `http://192.168.x.x:3000` をそのまま共有
+- **離れた友達** → 別ターミナルで `npx cloudflared tunnel --url http://localhost:3000`。
+  出てくる `https://xxxx.trycloudflare.com` を共有（ポート開放不要）
 
-# お題を追加したいとき（要 ANTHROPIC_API_KEY を .env に設定）
-npm run gen         # ワード入力 → 生成 → 検証。合格すると topics/out/ に下書き保存
-                    # 中身を確認して topics/bank/ に移すとバンク入り
-```
+ブラウザで開く → 名前を入れて「新しい部屋を作る」→ 出た部屋コードを全員に伝える → 各自コードで参加 →
+ホストが「開始」。3人から可（推奨5〜6人）。
 
-## ゲーム側ロジック
+### 遊びの流れ
+
+記憶（お題＋8事実を暗記／潜入者は数個だけ）→ 発言2周 → 自由議論 → 全員投票 → 監査（答え合わせ＋バカ判定）→ スコア → 次の試合
+
+進行の細部は [GAME_SPEC.md](GAME_SPEC.md)。配点は仮（[server/scoring.ts](server/scoring.ts) で調整）。
+
+動作確認: 別ターミナルでサーバを起動して `node scripts/smoketest.mjs 3000`
+
+---
+
+## 中身
 
 | 場所 | 役割 |
 |---|---|
-| [src/game/impostorFacts.ts](src/game/impostorFacts.ts) | 潜入者に渡す事実を選ぶ（枚数 0〜3、標準2 = 表層1＋具体1。GAME_SPEC.md 3.3 / 8.4） |
+| [server/](server/) | WebSocketゲームサーバ。部屋・フェーズ状態機械・役割配布・タイマー・投票・監査・採点 |
+| [public/](public/) | ブラウザクライアント（素のHTML/JS、ビルド不要） |
+| [topics/bank/](topics/bank/) | お題バンク（ワード＋8事実）。本番はここから配るだけ、ランタイムで LLM は呼ばない |
+| [src/schema/topic.ts](src/schema/topic.ts) | お題の型（Zod） |
+| [src/game/impostorFacts.ts](src/game/impostorFacts.ts) | 潜入者に渡す事実を選ぶ（枚数 0〜3、標準2＝表層1＋具体1） |
+| [src/validation/](src/validation/) | お題の構造チェック（コード）＋内容チェック（LLM、開発時のみ） |
+| [src/generation/](src/generation/) + [src/pipeline.ts](src/pipeline.ts) | お題生成AI（開発時の著作ツール） |
 
-## いま検証したいこと（GAME_SPEC.md 8.2.1）
+## お題バンク
 
-- 「一般知識との差分」が効いたお題を安定生成できるか（`npm run gen` を回して確認）
-- AI生成の8事実の事実性・出典の要否
-- 監査をランタイム LLM 無しでやれるか
+`topics/bank/` に vetted なお題。テスト用の初期8件（エッフェル塔 / 万里の長城 / ギザの大ピラミッド /
+ナポレオン / 寿司 / ブラックホール / オーロラ / ドードー）。各お題 = 表層2〜3 / 具体3〜4 / 意外1〜2 の8事実。
+
+```bash
+npm run demo        # APIキー不要。バンク全お題の構造チェック
+npm test            # ユニットテスト
+npm run typecheck
+
+# お題を追加（要 ANTHROPIC_API_KEY を .env に）
+npm run gen         # 生成 → 検証。合格すると topics/out/ に下書き。確認して topics/bank/ へ
+```
