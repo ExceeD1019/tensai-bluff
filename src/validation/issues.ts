@@ -1,4 +1,4 @@
-/** 検証の指摘。構造チェック（コード）と内容チェック（LLM）の両方がこの形で返す。 */
+/** お題の構造チェックが返す指摘。 */
 
 export type Severity = "error" | "warn";
 
@@ -8,7 +8,7 @@ export interface Issue {
   /** 対象データ（fact id / "structure" / "topic" など） */
   target: string;
   message: string;
-  /** 生成AIへの修正指示 */
+  /** お題作成者への修正のヒント */
   fixHint: string;
 }
 

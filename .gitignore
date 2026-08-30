@@ -1,14 +1,7 @@
 node_modules/
-.env
-.env.local
-*.local
 dist/
 *.tsbuildinfo
 .DS_Store
 .vscode/
 .idea/
 *.log
-
-# お題バンク（topics/bank/）は本体。commit する。
-# 生成ツール npm run gen の出力は topics/out/ に置き、レビュー後 bank/ へ手動で移す。
-topics/out/

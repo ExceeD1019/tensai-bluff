@@ -3,11 +3,11 @@ import { checkStructure } from "../validation/checkStructure.js";
 import { tierCounts } from "../schema/topic.js";
 
 /**
- * お題バンクの構造チェック（API 不要）。
+ * お題バンクの構造チェック。
  *   npm run demo
  *
- * bank/ の全お題に checkStructure をかけ、配れる状態か一覧で確認する。
- * 事実性・矛盾・playable の判定は npm run gen（要APIキー）。
+ * bank/ の全お題に checkStructure をかけ、階層配分・guessability などが
+ * 配れる状態か一覧で確認する。事実性は人が確認する。
  */
 async function main() {
   const ids = await listBank();
