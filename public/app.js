@@ -111,7 +111,7 @@ function render() {
   startTimerTick();
   const fn = ({
     lobby: renderLobby, memory: renderMemory, speaking: renderSpeaking,
-    discussion: renderDiscussion, voting: renderVoting, audit: renderAudit,
+    discussion: renderDiscussion, voting: renderVoting, wordGuess: renderWordGuess,
     scoreboard: renderScoreboard,
   })[state.phase] || renderLobby;
   fn();
@@ -156,7 +156,7 @@ function renderLobby() {
 }
 
 function renderMemory() {
-  const b = state.brief;
+  const b = state.brief || { facts: [] };
   const imp = state.role === "impostor";
   app.replaceChildren(
     h("div", { class: "panel" },
@@ -164,11 +164,13 @@ function renderMemory() {
         h("span", { class: "role-badge " + (imp ? "role-impostor" : "role-expert") }, imp ? "潜入者" : "専門家"),
         h("span", { class: "big-timer", "data-deadline": state.deadline }, "…"),
       ),
-      h("h2", { style: "margin-top:10px" }, "お題：" + b.word),
-      h("p", { class: "hint" }, b.neutralGloss),
       imp
-        ? h("p", {}, "あなたは詳細情報を持っていません。下の" + b.facts.length + "個だけが手元にあります。バレないように話を合わせてください。")
-        : h("p", {}, "この" + b.facts.length + "個をできるだけ覚えてください。時間が来たら消えます。"),
+        ? h("h2", { style: "margin-top:10px" }, "お題：" + (state.topicWord || b.word || "?"))
+        : h("h2", { style: "margin-top:10px" }, "お題：？（あなたは知らされません）"),
+      imp && b.neutralGloss ? h("p", { class: "hint" }, b.neutralGloss) : null,
+      imp
+        ? h("p", {}, "あなたはこの単語を知っています。手元の事実は下の" + b.facts.length + "個だけ。バレないように話を合わせてください。")
+        : h("p", {}, "単語は伏せられています。下の" + b.facts.length + "個の情報から「何のお題か」を推測して覚えてください。時間が来たら消えます。"),
       b.facts.map((f) => h("div", { class: "fact" },
         !imp ? h("div", { class: "t" }, ({ surface: "表層", specific: "具体", surprising: "意外" })[f.tier] + " ／ g" + f.guessability) : null,
         f.text,
@@ -194,7 +196,10 @@ function renderSpeaking() {
   app.replaceChildren(
     h("div", { class: "panel" },
       h("h2", {}, (sp.round) + "周目 / 2"),
-      h("p", { class: "hint" }, "自分の番になったらお題について1つだけ話す。質問・追及は次の自由議論で。"),
+      state.topicWord
+        ? h("p", {}, "お題：", h("strong", {}, state.topicWord), h("span", { class: "hint" }, "（潜入者のあなただけが知っています）"))
+        : h("p", { class: "hint" }, "お題の単語は分かりません。情報から推測して話してください。"),
+      h("p", { class: "hint" }, "詳細情報はもう見られません。自分の番になったらお題について1つだけ話す。質問・追及は次の自由議論で。"),
       rows,
     ),
     h("div", { class: "row end" },
@@ -221,7 +226,7 @@ function renderVoting() {
   app.replaceChildren(
     h("div", { class: "panel" },
       h("h2", {}, "投票：潜入者だと思う人を1人"),
-      h("p", { class: "hint" }, "全員が入れたら結果を公開。潜入者以外を指すと誤爆（減点）。"),
+      h("p", { class: "hint" }, "全員が入れたら結果を公開。潜入者以外を指すと誤認（称号のみ・減点なし）。"),
       state.players.filter((p) => p.id !== state.you).map((p) =>
         h("button", { class: "pick" + (v.yourVote === p.id ? " sel" : ""), onclick: () => send({ t: "vote", target: p.id }) },
           p.name + (v.voted.includes(p.id) ? "  ✔投票済" : ""),
@@ -232,68 +237,81 @@ function renderVoting() {
   );
 }
 
-function renderAudit() {
-  const a = state.audit, r = state.reveal;
-  const amJudge = state.you === a.judgeId;
-  const amGenius = state.you === a.geniusId;
+function renderWordGuess() {
+  const wg = state.wordGuess, r = state.reveal;
+  const amGenius = state.you === wg.geniusId;
   const amExpert = state.role === "expert";
   const impNames = r.impostorIds.map(nameOf).join("、");
+  const myGuess = wg.guesses[state.you] || "";
 
   app.replaceChildren(
-    h("div", { class: "banner " + (r.caught ? "good" : "bad") },
-      r.caught ? "潜入者 " + impNames + " をあぶり出した！" : "潜入者 " + impNames + " は逃げ切った（天才）",
-    ),
-    r.misvoters.length ? h("p", { class: "hint" }, "誤爆：" + r.misvoters.map(nameOf).join("、")) : null,
+    h("div", { class: "banner bad" }, "潜入者 " + impNames + " は逃げ切った（天才）"),
+    r.misvoters.length ? h("p", { class: "hint" }, "誤認：" + r.misvoters.map(nameOf).join("、")) : null,
 
     h("div", { class: "panel" },
-      h("h3", {}, "詳細情報8点（答え合わせ）"),
-      a.facts.map((f) => h("div", { class: "fact" }, h("span", { class: "t" }, ({ surface: "表層", specific: "具体", surprising: "意外" })[f.tier] + " "), f.text)),
+      h("h3", {}, "敗者復活：単語当て"),
+      h("p", { class: "hint" }, "お題の単語を当てれば「秀才」。外すと「知ったかぶりバカ」（減点）。正誤はシステムが自動判定します。"),
     ),
 
     amExpert ? h("div", { class: "panel" },
-      h("h3", {}, "あなたの記憶再現（覚えている事実を書く）"),
-      h("textarea", { id: "recall", html: (a.recalls[state.you] || "") }),
+      h("h3", {}, "あなたの回答"),
+      h("input", { id: "wg", type: "text", maxlength: 60, value: myGuess, placeholder: "お題だと思う単語" }),
       h("div", { class: "row end", style: "margin-top:8px" },
-        h("button", { class: "sm", onclick: () => send({ t: "recall", text: document.getElementById("recall").value }) }, "提出"),
+        h("button", { class: "sm", onclick: () => send({ t: "wordGuess", text: document.getElementById("wg").value }) }, "提出"),
+      ),
+    ) : null,
+
+    amGenius ? h("div", { class: "panel" },
+      h("h3", {}, "あなたは天才"),
+      h("p", { class: "hint" }, "正誤の判定はシステムが自動で行います。全員の回答が出そろったら宣告してください。「頭のいいあなたなら分かりますよね？」"),
+      h("div", { class: "row end" },
+        h("button", { class: "sm" + (wg.announced ? " sel" : ""), onclick: () => send({ t: "announceWordGuess" }) },
+          wg.announced ? "宣告済み" : "結果を宣告する"),
       ),
     ) : null,
 
     h("div", { class: "panel" },
-      h("h3", {}, "専門家の再現と判定"),
-      a.expertIds.map((id) => h("div", { style: "margin-bottom:12px" },
-        h("div", { class: "row", style: "justify-content:space-between" },
-          h("strong", {}, nameOf(id)),
-          h("span", { class: "tag" }, verdictLabel(a.judgements[id])),
-        ),
-        h("p", { class: "hint", style: "white-space:pre-wrap" }, a.recalls[id] || "（未提出）"),
-        amJudge ? h("div", { class: "row" },
-          jbtn(id, "pass", "合格", a), jbtn(id, "fool", "バカ", a), jbtn(id, "bluff-fool", "知ったかぶり", a),
-        ) : null,
-        amGenius ? h("button", { class: "sm" + (a.accusations.includes(id) ? " sel" : ""), onclick: () => send({ t: "accuse", player: id }) },
-          a.accusations.includes(id) ? "名指し中" : "こいつはバカだと名指し") : null,
-      )),
+      h("h3", {}, "専門家の回答"),
+      wg.expertIds.map((id) => {
+        const g = wg.guesses[id];
+        const v = wg.verdicts[id];
+        const label = v === true ? "秀才" : v === false ? "知ったかぶりバカ" : "天才の発表待ち";
+        return h("div", { style: "margin-bottom:10px" },
+          h("div", { class: "row", style: "justify-content:space-between" },
+            h("strong", {}, nameOf(id)),
+            h("span", { class: "tag" }, g == null ? "未提出" : label),
+          ),
+          h("p", { class: "hint" }, g == null ? "（未提出）" : "「" + g + "」"),
+        );
+      }),
     ),
 
     isHost() ? h("div", { class: "row end" },
-      h("button", { class: "primary", onclick: () => send({ t: "finishAudit" }) }, "採点して結果へ"),
-    ) : h("p", { class: "hint" }, "ホストの採点を待っています…"),
+      h("button", { class: "primary", onclick: () => send({ t: "finishWordGuess" }) }, "締めて結果へ"),
+    ) : h("p", { class: "hint" }, "ホストの操作を待っています…"),
   );
 }
-function verdictLabel(v) { return { pass: "合格", fool: "バカ", "bluff-fool": "知ったかぶりバカ" }[v] || "未判定"; }
-function jbtn(id, v, label, a) {
-  return h("button", { class: "sm" + (a.judgements[id] === v ? " sel" : ""), onclick: () => send({ t: "judge", player: id, verdict: v }) }, label);
-}
+
+const TITLE_LABEL = { genius: "天才", prodigy: "秀才", "know-it-all-fool": "知ったかぶりバカ", misread: "誤認" };
 
 function renderScoreboard() {
   const sb = state.scoreboard;
+  const r = state.reveal;
+  const titles = sb.titles || {};
   const sorted = [...state.players].sort((x, y) => y.score - x.score);
+  const impNames = r ? r.impostorIds.map(nameOf).join("、") : "";
   app.replaceChildren(
+    r ? h("div", { class: "banner " + (r.caught ? "good" : "bad") },
+      r.caught ? "潜入者 " + impNames + " を特定！" : "潜入者 " + impNames + " は逃げ切った（天才）",
+    ) : null,
+    state.topicWord ? h("p", { class: "hint" }, "お題は「" + state.topicWord + "」でした。") : null,
     h("div", { class: "panel" },
       h("h2", {}, "スコア"),
       h("ul", { class: "plist" }, sorted.map((p) => {
         const d = sb.deltas[p.id] || 0;
+        const t = titles[p.id];
         return h("li", {},
-          h("span", {}, p.name),
+          h("span", {}, p.name, t ? h("span", { class: "tag" }, " " + (TITLE_LABEL[t] || t)) : null),
           h("span", {}, h("span", { class: "delta " + (d >= 0 ? "pos" : "neg") }, (d >= 0 ? "+" : "") + d), "  ", h("strong", {}, p.score)),
         );
       })),

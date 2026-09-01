@@ -1,19 +1,16 @@
 import { randomUUID } from "node:crypto";
 import { dealImpostorFacts } from "../src/game/impostorFacts.js";
+import { isAcceptableGuess } from "../src/game/wordGuess.js";
 import type { Fact, Topic } from "../src/schema/topic.js";
-import type {
-  ClientMsg,
-  Judgement,
-  Phase,
-  PlayerView,
-  Role,
-  Settings,
-  StateMsg,
-} from "./protocol.js";
+import type { ClientMsg, Phase, PlayerView, Role, Settings, StateMsg, Title } from "./protocol.js";
 import { scoreRound } from "./scoring.js";
 
-const DEFAULT_SETTINGS: Settings = { memorySec: 40, discussionSec: 240, impostorFactCount: 2 };
-const MIN_PLAYERS = 3; // テスト用に緩め（本番は4）
+const DEFAULT_SETTINGS: Settings = {
+  memorySec: 40,
+  discussionSec: 240,
+  impostorFactCount: 2,
+};
+const MIN_PLAYERS = 3; // 最小人数（専門家2・潜入者1）。GAME_SPEC 2章
 
 interface Player {
   id: string;
@@ -28,19 +25,20 @@ interface RoundState {
   roleOf: Map<string, Role>;
   impostorIds: string[];
   expertFacts: Fact[];
-  impostorBrief: { word: string; neutralGloss: string; facts: Fact[] };
+  /** 潜入者ごとに独立して配る（相方が誰かは知らせない） */
+  impostorBriefs: Map<string, { word: string; neutralGloss: string; facts: Fact[] }>;
   order: string[]; // speaking順（playerId）。2周とも同じ
   speakIndex: number; // 0..2N
   votes: Map<string, string>;
   caught: boolean;
   misvoters: string[];
-  recalls: Map<string, string>;
-  judgements: Map<string, Judgement>;
-  accusations: Set<string>;
-  geniusId: string | null;
-  judgeId: string;
+  geniusId: string | null; // 生存潜入者（結果宣告の演出役）。露見時は null
+  wordGuesses: Map<string, string>; // expertId -> 回答
+  wordVerdicts: Map<string, boolean>; // expertId -> 正解か（acceptable配列で自動判定）
+  announced: boolean; // 天才が結果発表を宣言したか（演出のみ）
   deltas: Record<string, number>;
   log: string[];
+  titles: Record<string, Title>;
 }
 
 export class Room {
@@ -123,25 +121,24 @@ export class Room {
       case "vote":
         this.castVote(playerId, msg.target);
         break;
-      case "recall":
-        if (this.phase === "audit" && this.round) this.round.recalls.set(playerId, msg.text);
-        this.broadcast();
-        break;
-      case "judge":
-        if (this.phase === "audit" && this.round && playerId === this.round.judgeId) {
-          this.round.judgements.set(msg.player, msg.verdict);
+      case "wordGuess":
+        if (this.phase === "wordGuess" && this.round && this.round.roleOf.get(playerId) === "expert") {
+          const text = msg.text.slice(0, 60);
+          this.round.wordGuesses.set(playerId, text);
+          // 正誤は acceptable 配列でサーバが自動判定する（3.1・3.6.1）。人間の裁定者は不要
+          this.round.wordVerdicts.set(playerId, isAcceptableGuess(text, this.round.topic));
           this.broadcast();
         }
         break;
-      case "accuse":
-        if (this.phase === "audit" && this.round && playerId === this.round.geniusId) {
-          const s = this.round.accusations;
-          s.has(msg.player) ? s.delete(msg.player) : s.add(msg.player);
-          this.broadcast();
+      case "announceWordGuess":
+        // 天才は判定に関与せず、結果発表の演出役として残る（3.6.1）
+        if (this.phase === "wordGuess" && this.round && playerId === this.round.geniusId) {
+          this.round.announced = true;
+          this.broadcast(`天才の${this.players.get(playerId)?.name ?? ""}「頭のいいあなたなら分かりますよね？」`);
         }
         break;
-      case "finishAudit":
-        if (isHost && this.phase === "audit") this.finishAudit();
+      case "finishWordGuess":
+        if (isHost && this.phase === "wordGuess") this.finishRound();
         break;
       case "nextRound":
         if (isHost && this.phase === "scoreboard") {
@@ -180,24 +177,28 @@ export class Room {
     const roleOf = new Map<string, Role>();
     for (const id of ids) roleOf.set(id, impostorIds.includes(id) ? "impostor" : "expert");
 
+    const impostorBriefs = new Map(
+      impostorIds.map((id) => [id, dealImpostorFacts(topic, this.settings.impostorFactCount)]),
+    );
+
     this.round = {
       topic,
       roleOf,
       impostorIds,
       expertFacts: topic.facts,
-      impostorBrief: dealImpostorFacts(topic, this.settings.impostorFactCount),
+      impostorBriefs,
       order: shuffle([...ids]),
       speakIndex: 0,
       votes: new Map(),
       caught: false,
       misvoters: [],
-      recalls: new Map(),
-      judgements: new Map(),
-      accusations: new Set(),
       geniusId: null,
-      judgeId: "",
+      wordGuesses: new Map(),
+      wordVerdicts: new Map(),
+      announced: false,
       deltas: {},
       log: [],
+      titles: {},
     };
 
     this.phase = "memory";
@@ -244,56 +245,78 @@ export class Room {
     this.round.votes.set(playerId, target);
 
     const voters = [...this.players.values()].filter((p) => p.connected).map((p) => p.id);
-    if (voters.every((id) => this.round!.votes.has(id))) this.toReveal();
+    if (voters.every((id) => this.round!.votes.has(id))) this.resolveVote();
     else this.broadcast();
   }
 
-  private toReveal(): void {
+  private resolveVote(): void {
     const r = this.round!;
-    // 集計
+    // 集計（潜入者の票は除外。3.6）
     const tally = new Map<string, number>();
-    for (const target of r.votes.values()) tally.set(target, (tally.get(target) ?? 0) + 1);
+    for (const [voter, target] of r.votes.entries()) {
+      if (r.impostorIds.includes(voter)) continue;
+      tally.set(target, (tally.get(target) ?? 0) + 1);
+    }
     const max = Math.max(0, ...tally.values());
     const topTargets = [...tally.entries()].filter(([, c]) => c === max).map(([id]) => id);
 
-    // 潜入者が単独最多 → 露見。同数最多に潜入者が入っていれば潜入者の勝ち（生存）
+    // 潜入者が単独最多 → 特定成功。同率のときの扱いは保留（試遊で判断・8.3）。
     const impInTop = topTargets.some((id) => r.impostorIds.includes(id));
-    r.caught = impInTop && topTargets.length === 1;
+    r.caught = impInTop && topTargets.length === 1 && max > 0;
 
     r.misvoters = [...r.votes.entries()]
       .filter(([voter, target]) => !r.impostorIds.includes(voter) && !r.impostorIds.includes(target))
       .map(([voter]) => voter);
 
     r.geniusId = r.caught ? null : (r.impostorIds[0] ?? null);
-    // 判定者は host。host が潜入者なら最初の専門家に回す
-    const host = this.hostId;
-    r.judgeId =
-      r.roleOf.get(host) === "expert"
-        ? host
-        : ([...r.roleOf.entries()].find(([, role]) => role === "expert")?.[0] ?? host);
 
-    this.phase = "audit";
-    this.broadcast();
+    if (r.caught || !r.geniusId) {
+      this.finishRound(); // 特定成功、または裁定できる天才がいない → そのままスコアへ
+    } else {
+      this.phase = "wordGuess"; // 取り逃し → 敗者復活戦（3.6.1）
+      this.broadcast();
+    }
   }
 
-  private finishAudit(): void {
+  private expertIds(): string[] {
     const r = this.round!;
+    return [...r.roleOf.entries()].filter(([, ro]) => ro === "expert").map(([id]) => id);
+  }
+
+  private finishRound(): void {
+    const r = this.round!;
+    const wordVerdicts: Record<string, boolean> = {};
+    if (!r.caught) {
+      // 未裁定の専門家は「外した」扱い
+      for (const id of this.expertIds()) wordVerdicts[id] = r.wordVerdicts.get(id) ?? false;
+    }
+
     const { deltas, log } = scoreRound({
       impostorIds: r.impostorIds,
       caught: r.caught,
       votes: Object.fromEntries(r.votes),
-      misvoters: r.misvoters,
-      judgements: Object.fromEntries(r.judgements) as Record<string, Judgement>,
-      geniusId: r.geniusId,
-      geniusAccusations: [...r.accusations],
+      wordVerdicts,
       nameOf: (id) => this.players.get(id)?.name ?? id,
     });
     for (const [id, d] of Object.entries(deltas)) {
       const p = this.players.get(id);
       if (p) p.score += d;
     }
+
+    // 称号（4章）。1人1試合につき1つだけ表示する（誤認より単語当ての結果を優先）
+    const titles: Record<string, Title> = {};
+    for (const impId of r.impostorIds) if (!r.caught) titles[impId] = "genius";
+    if (r.caught) {
+      for (const id of r.misvoters) titles[id] = "misread";
+    } else {
+      for (const id of this.expertIds()) {
+        titles[id] = wordVerdicts[id] ? "prodigy" : "know-it-all-fool";
+      }
+    }
+
     r.deltas = deltas;
     r.log = log;
+    r.titles = titles;
     this.phase = "scoreboard";
     this.broadcast();
   }
@@ -352,14 +375,20 @@ export class Room {
     if (!r) return base;
 
     const role = r.roleOf.get(playerId);
-    if (this.phase === "memory" || this.phase === "speaking") {
-      base.role = role;
-      base.brief =
-        role === "impostor"
-          ? r.impostorBrief
-          : role === "expert"
-            ? { word: r.topic.word, neutralGloss: r.topic.neutralGloss, facts: r.expertFacts }
-            : undefined;
+    if (this.phase !== "lobby") base.role = role;
+
+    // お題の単語: 潜入者には常に、専門家には scoreboard でのみ見せる（3.3）
+    if (role === "impostor" || this.phase === "scoreboard") base.topicWord = r.topic.word;
+
+    // 詳細情報（brief）は記憶フェーズ限定。専門家は単語を含めない（3.3）。
+    // 出典（source）はどちらにも送らない（単語が漏れないよう）
+    if (this.phase === "memory") {
+      if (role === "impostor") {
+        const b = r.impostorBriefs.get(playerId);
+        if (b) base.brief = { ...b, facts: b.facts.map(stripSource) };
+      } else if (role === "expert") {
+        base.brief = { facts: r.expertFacts.map(stripSource) };
+      }
     }
 
     if (this.phase === "speaking") {
@@ -375,8 +404,7 @@ export class Room {
       base.voting = { voted: [...r.votes.keys()], yourVote: r.votes.get(playerId) };
     }
 
-    if (this.phase === "audit" || this.phase === "scoreboard") {
-      base.role = role;
+    if (this.phase === "wordGuess" || this.phase === "scoreboard") {
       base.reveal = {
         impostorIds: r.impostorIds,
         votes: Object.fromEntries(r.votes),
@@ -385,20 +413,24 @@ export class Room {
       };
     }
 
-    if (this.phase === "audit") {
-      base.audit = {
-        facts: r.topic.facts,
-        recalls: Object.fromEntries(r.recalls),
-        judgements: Object.fromEntries(r.judgements) as Record<string, Judgement>,
-        judgeId: r.judgeId,
-        geniusId: r.geniusId ?? undefined,
-        accusations: [...r.accusations],
-        expertIds: [...r.roleOf.entries()].filter(([, ro]) => ro === "expert").map(([id]) => id),
+    if (this.phase === "wordGuess") {
+      // 正誤は判定済みだが、天才が「宣告」するまでは本人と天才以外には伏せる（結果宣告の演出・3.6.1）
+      const isGenius = playerId === r.geniusId;
+      const verdicts: Record<string, boolean> = {};
+      for (const [id, v] of r.wordVerdicts) {
+        if (isGenius || r.announced || id === playerId) verdicts[id] = v;
+      }
+      base.wordGuess = {
+        geniusId: r.geniusId ?? "",
+        expertIds: this.expertIds(),
+        guesses: Object.fromEntries(r.wordGuesses),
+        verdicts,
+        announced: r.announced,
       };
     }
 
     if (this.phase === "scoreboard") {
-      base.scoreboard = { deltas: r.deltas, log: r.log };
+      base.scoreboard = { deltas: r.deltas, log: r.log, titles: r.titles };
     }
 
     return base;
@@ -407,6 +439,10 @@ export class Room {
 
 function clamp(n: number, lo: number, hi: number): number {
   return Math.max(lo, Math.min(hi, Math.round(n)));
+}
+
+function stripSource({ source: _source, ...rest }: Fact): Omit<Fact, "source"> {
+  return rest;
 }
 
 function shuffle<T>(arr: T[]): T[] {

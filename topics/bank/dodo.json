@@ -1,7 +1,8 @@
 {
   "id": "dodo",
   "word": "ドードー",
-  "neutralGloss": "かつて存在した、飛べない大型の鳥。絶滅の象徴としてよく知られる。",
+  "acceptable": ["ドード", "ドードー鳥"],
+  "neutralGloss": "「いなくなってしまった生き物」の代名詞のようになっている、空を飛べなかった鳥。",
   "generalFamiliarity": 4,
   "category": "生物",
   "createdAt": "2026-08-30T12:00:00+09:00",

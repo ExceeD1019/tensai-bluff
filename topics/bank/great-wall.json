@@ -1,7 +1,8 @@
 {
   "id": "great-wall",
   "word": "万里の長城",
-  "neutralGloss": "中国北部にある、非常に長い城壁。世界的に有名な建造物。",
+  "acceptable": ["長城", "グレートウォール", "グレート・ウォール"],
+  "neutralGloss": "国境を守るために、山の尾根づたいに途方もない距離を延ばした古い防壁。",
   "generalFamiliarity": 5,
   "category": "建造物",
   "createdAt": "2026-08-30T12:00:00+09:00",

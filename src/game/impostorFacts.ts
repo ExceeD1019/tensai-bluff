@@ -3,7 +3,7 @@ import type { Fact, Tier, Topic } from "../schema/topic.js";
 /**
  * 潜入者に渡す事実を選ぶ（GAME_SPEC.md 3.3）。
  *
- * 枚数は部屋設定（0〜3、標準2）。内訳は確率分析（GAME_SPEC.md 8.4）を踏まえ、
+ * 枚数は部屋設定（0〜3、標準2）。内訳は GAME_SPEC.md 3.3 を踏まえ、
  * 「表層に寄せない」構成にする:
  *   0枚 → なし
  *   1枚 → 表層1

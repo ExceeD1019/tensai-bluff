@@ -110,6 +110,45 @@ export function checkStructure(topic: Topic): Issue[] {
     );
   }
 
+  // --- 単語が伏せられているか（GAME_SPEC.md 3.3。専門家は8点だけで推測する） ---
+  for (const f of topic.facts) {
+    if (f.text.includes(topic.word)) {
+      issues.push(
+        issue(
+          "WORD_IN_FACT",
+          "warn",
+          f.id,
+          `事実 ${f.id} にお題の単語「${topic.word}」がそのまま書かれている（専門家が推測せず分かってしまう）`,
+          `「この塔」「その料理」のように言い換える。単語を含む固有名（人名・地名）も避ける`,
+        ),
+      );
+    }
+  }
+  if (topic.neutralGloss.includes(topic.word)) {
+    issues.push(
+      issue(
+        "WORD_IN_GLOSS",
+        "warn",
+        "topic",
+        `neutralGloss にお題の単語「${topic.word}」がそのまま書かれている`,
+        `ワードを直接使わない比喩的・抽象的な言い回しにする（例:「カレーライス」→「日本中の家庭で親しまれている、ある定番料理」）`,
+      ),
+    );
+  }
+
+  // --- acceptable 配列（単語当ての表記ゆれ辞書。3.1/3.6.1）---
+  if (topic.acceptable.length === 0) {
+    issues.push(
+      issue(
+        "ACCEPTABLE_EMPTY",
+        "warn",
+        "topic",
+        `acceptable が空。単語当ての自動判定は word との完全一致しか拾えない`,
+        `送り仮名・カタカナ表記ゆれ・通称・英語表記などのバリエーションを acceptable に列挙する（topics/TEMPLATES.md）`,
+      ),
+    );
+  }
+
   // --- neutralGloss が具体を漏らしていないか（簡易チェック） ---
   const glossLeak = /\d{3,}|\d+年|\d+メートル|\d+トン|\d+%/.test(topic.neutralGloss);
   if (glossLeak) {

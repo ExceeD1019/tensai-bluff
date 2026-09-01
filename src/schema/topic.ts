@@ -53,6 +53,12 @@ export const TopicSchema = z.object({
   /** 人物 / 建造物 / 自然 / 歴史 / 科学 / 文化 / 生物 など */
   category: z.string().min(1),
   facts: z.array(FactSchema).length(8),
+  /**
+   * 単語当て（GAME_SPEC.md 3.6.1）で正解として許容する表記のバリエーション。
+   * `word` 自体は常に正解扱いなのでここに重複させる必要はない。
+   * 判定は正規化した上での完全一致（src/game/wordGuess.ts の isAcceptableGuess）。
+   */
+  acceptable: z.array(z.string().min(1)).default([]),
   createdAt: z.string(),
 });
 export type Topic = z.infer<typeof TopicSchema>;

@@ -46,7 +46,7 @@ async function main() {
   send(host(), { t: "start" });
 
   await waitPhase("memory");
-  for (const c of clients) console.log(`  [${c.name}] role=${c.state.role} word=${c.state.brief?.word} facts=${c.state.brief?.facts.length}`);
+  for (const c of clients) console.log(`  [${c.name}] role=${c.state.role} word=${c.state.topicWord ?? "(伏せ)"} facts=${c.state.brief?.facts.length}`);
   const impostor = clients.find((c) => c.state.role === "impostor");
   console.log("impostor:", impostor.name);
 
@@ -64,35 +64,36 @@ async function main() {
   await waitPhase("voting");
   console.log("voting...");
   const impId = impostor.state.you;
+  // 全員が非潜入者へ投票 → 潜入者は取り逃し → 単語当てフェーズへ
+  const scapegoat = clients.find((x) => x.state.you !== impId);
   for (const c of clients) {
-    const target = c === impostor
-      ? clients.find((x) => x !== impostor).state.you
-      : c.name === "きい"
-        ? clients.find((x) => x !== impostor && x !== c).state.you
-        : impId;
+    const target = c === scapegoat
+      ? clients.find((x) => x.state.you !== impId && x !== scapegoat).state.you
+      : scapegoat.state.you;
     send(c, { t: "vote", target });
     await sleep(100);
   }
 
-  await waitPhase("audit");
+  await waitPhase("wordGuess");
   const rv = host().state.reveal;
-  console.log(`reveal: caught=${rv.caught} misvoters=${rv.misvoters.map((id) => host().state.players.find((p) => p.id === id)?.name)}`);
-  const a = host().state.audit;
-  for (const c of clients) { if (c.state.role === "expert") send(c, { t: "recall", text: `${c.name}の記憶` }); await sleep(60); }
-  const judge = clients.find((c) => c.state.you === a.judgeId);
-  a.expertIds.forEach((id, i) => send(judge, { t: "judge", player: id, verdict: i === 0 ? "fool" : "pass" }));
-  await sleep(300);
-  if (host().state.audit.geniusId) {
-    const genius = clients.find((c) => c.state.you === host().state.audit.geniusId);
-    send(genius, { t: "accuse", player: host().state.audit.expertIds[0] });
-    await sleep(200);
+  console.log(`reveal: caught=${rv.caught} misvoters=${rv.misvoters.map((id) => host().state.players.find((p) => p.id === id)?.name).join(",")}`);
+  const word = impostor.state.topicWord;
+  console.log("word:", word);
+  // 正誤はサーバが acceptable 配列で自動判定する（3.6.1）。天才は宣告するだけ
+  for (const c of clients) {
+    if (c.state.role === "expert") send(c, { t: "wordGuess", text: c === scapegoat ? word : "でたらめ" });
+    await sleep(60);
   }
-  send(host(), { t: "finishAudit" });
+  await sleep(200);
+  const genius = clients.find((c) => c.state.you === host().state.wordGuess.geniusId);
+  send(genius, { t: "announceWordGuess" });
+  await sleep(200);
+  send(host(), { t: "finishWordGuess" });
 
   await waitPhase("scoreboard");
   const sb = host().state.scoreboard;
   console.log("SCORE:");
-  for (const p of host().state.players) console.log(`  ${p.name}: ${p.score} (Δ${sb.deltas[p.id] ?? 0})`);
+  for (const p of host().state.players) console.log(`  ${p.name}: ${p.score} (Δ${sb.deltas[p.id] ?? 0}) ${sb.titles?.[p.id] ?? ""}`);
   sb.log.forEach((l) => console.log("  " + l));
 
   send(host(), { t: "nextRound" });
