@@ -1,0 +1,67 @@
+{
+  "id": "giant-panda",
+  "word": "ジャイアントパンダ",
+  "acceptable": ["パンダ", "大熊猫", "ジャイアント・パンダ"],
+  "neutralGloss": "白と黒の毛皮が特徴的な、竹をもりもり食べる中国生まれの人気者。",
+  "generalFamiliarity": 5,
+  "category": "動物・生物",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "白と黒の毛皮が特徴的な、中国原産の動物として世界的に人気がある。",
+      "tier": "surface",
+      "source": "Wikipedia: ジャイアントパンダ",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "ずんぐりした体型で、竹を食べる姿がよく知られている。",
+      "tier": "surface",
+      "source": "Wikipedia: ジャイアントパンダ",
+      "guessability": 5
+    },
+    {
+      "id": "f3",
+      "text": "動物園の人気者で、多くの国で見ることができる。",
+      "tier": "surface",
+      "source": "ひとぅメモ: パンダの生態的特徴と世界的な飼育の実態",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "分類上は肉食動物のグループに属しているが、食べる物のほとんどは竹などの植物。",
+      "tier": "specific",
+      "source": "Wikipedia: ジャイアントパンダ / 食性",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "前足には親指のように使える突起があり、これで細い竹をつかんで食べることができる。",
+      "tier": "specific",
+      "source": "ZUKAN: ジャイアントパンダとは",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "消化器官は肉食動物に近い単純な構造のままなので竹の栄養をあまり効率よく吸収できず、1日の大半を食べることに費やす。",
+      "tier": "specific",
+      "source": "ZUKAN: ジャイアントパンダとは",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "生まれたばかりの赤ちゃんは親の体重の1000分の1程度しかなく、非常に小さく未熟な状態で生まれる。",
+      "tier": "surprising",
+      "source": "Wikipedia: ジャイアントパンダ / 繁殖",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "白黒の柄は個体ごとに少しずつ違い、専門家が模様で個体を見分けることもある。",
+      "tier": "surprising",
+      "source": "るるぶKids: ジャイアントパンダの特徴",
+      "guessability": 2
+    }
+  ]
+}

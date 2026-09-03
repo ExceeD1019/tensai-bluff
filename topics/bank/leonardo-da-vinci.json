@@ -1,0 +1,67 @@
+{
+  "id": "leonardo-da-vinci",
+  "word": "レオナルド・ダ・ヴィンチ",
+  "acceptable": ["レオナルドダヴィンチ", "ダヴィンチ", "ダ・ヴィンチ", "レオナルド"],
+  "neutralGloss": "ルネサンス期のイタリアで、絵画から発明まで幅広く才能を発揮したある人物。",
+  "generalFamiliarity": 5,
+  "category": "歴史上の人物",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "ルネサンス期のイタリアで活躍した画家で、絵画以外にも発明や解剖など幅広い分野に興味を持った。",
+      "tier": "surface",
+      "source": "Wikipedia: レオナルド・ダ・ヴィンチ",
+      "guessability": 4
+    },
+    {
+      "id": "f2",
+      "text": "「万能人」と呼ばれるほど多才で、絵画・彫刻・建築・科学に精通していた。",
+      "tier": "surface",
+      "source": "アートリエメディア: 芸術と科学の天才",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "世界で最も有名ともいわれる女性の肖像画を描いたことで知られる。",
+      "tier": "surface",
+      "source": "Wikipedia: レオナルド・ダ・ヴィンチ / 代表作",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "1452年、イタリア中部の小さな村で生まれ、フィレンツェで工房に弟子入りして修行した。",
+      "tier": "specific",
+      "source": "まなれきドットコム: レオナルド・ダ・ヴィンチ 生涯",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "左利きだったこともあり、右から左へ読む「鏡文字」で手記の大半を書き残した。",
+      "tier": "specific",
+      "source": "Wikipedia: レオナルド・ダ・ヴィンチ / 手稿",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "生涯で残した手稿は現存するだけで数千枚にのぼり、人体や機械の詳細なスケッチが含まれる。",
+      "tier": "specific",
+      "source": "Wikipedia: レオナルド・ダ・ヴィンチ / 手稿",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "有名な女性の肖像画は1503年ごろに描き始め、亡くなるまで手元に置き続け、完成させ続けたとされる。",
+      "tier": "specific",
+      "source": "Wikipedia: レオナルド・ダ・ヴィンチ / モナリザ",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "空を飛ぶ装置や戦車のような兵器の設計図も残しており、実現には数百年先の技術が必要なものもあった。",
+      "tier": "surprising",
+      "source": "まなれきドットコム: 発明品",
+      "guessability": 2
+    }
+  ]
+}

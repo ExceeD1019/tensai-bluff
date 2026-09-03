@@ -1,0 +1,67 @@
+{
+  "id": "koala",
+  "word": "コアラ",
+  "acceptable": ["こあら", "Koala"],
+  "neutralGloss": "ユーカリの葉だけを食べ、1日のほとんどを眠って過ごすオーストラリアの有袋類。",
+  "generalFamiliarity": 5,
+  "category": "動物・生物",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "オーストラリアに生息する、ユーカリの葉だけを主食とする動物。",
+      "tier": "surface",
+      "source": "Wikipedia: コアラ",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "見た目からクマの仲間だと誤解されがちだが、実際は腹に袋を持つ有袋類の仲間。",
+      "tier": "surface",
+      "source": "Australian Koala Foundation: コアラ豆知識",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "オーストラリアを代表する動物として、国内外で高い人気を持つ。",
+      "tier": "surface",
+      "source": "Wikipedia: コアラ",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "1日のうち18〜20時間ほどを眠って過ごすとされ、非常に長い時間を休息にあてる。",
+      "tier": "specific",
+      "source": "コアラマットレス公式ブログ: コアラの睡眠時間",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "食べている葉には毒性のある成分が含まれており、消化に時間がかかることも活動時間が短い一因とされる。",
+      "tier": "specific",
+      "source": "yanakiji: コアラの生態",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "その葉を食べる動物は少ないため、ライバルの少ない食料源を独占できている。",
+      "tier": "specific",
+      "source": "zooリサーチ: コアラの生態・特徴まとめ",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "指先の模様（指紋）が人間のものと非常によく似ており、専門家が精査しても区別が難しいことがある。",
+      "tier": "surprising",
+      "source": "ナゾロジー: 犯罪捜査のプロでも見分けがつかない共通点",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "赤ちゃんは母親の袋を出た後もしばらく、母親が出す特別な軟らかい排せつ物を食べて、消化を助ける腸内細菌を受け継ぐ。",
+      "tier": "surprising",
+      "source": "zooリサーチ: コアラの生態・特徴まとめ",
+      "guessability": 1
+    }
+  ]
+}

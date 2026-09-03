@@ -1,0 +1,67 @@
+{
+  "id": "rainbow",
+  "word": "虹",
+  "acceptable": ["にじ", "レインボー"],
+  "neutralGloss": "雨上がりの空に現れる、七色に彩られた大きなアーチ。",
+  "generalFamiliarity": 5,
+  "category": "自然現象",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "雨上がりなどに空に現れる、色が並んだ大きなアーチ状の光の帯。",
+      "tier": "surface",
+      "source": "Wikipedia: 虹",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "赤から紫まで、複数の色が順番に並んで見える。",
+      "tier": "surface",
+      "source": "Wikipedia: 虹 / 色",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "太陽の光が空気中の水滴に入るとき屈折し、内部で反射してから再び屈折して外に出ることで生まれる。",
+      "tier": "specific",
+      "source": "CCS株式会社: 光と色の話 第19回",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "色によって水滴の中で光が曲がる角度がわずかに違うため、色ごとに別々の方向へ光が分かれて見える。",
+      "tier": "specific",
+      "source": "CCS株式会社: 光と色の話 第19回",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "主なアーチの外側に、もう一つ薄いアーチが見えることがあり、そちらは反射が一回多いため色の並びが逆になる。",
+      "tier": "specific",
+      "source": "東北大学: 虹と暈",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "太陽を背にして見上げたときにだけ見え、太陽の方向を向いていては見えない現象。",
+      "tier": "specific",
+      "source": "Study-Z: 虹の仕組み",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "見ている人の位置によって目に届く光がそれぞれ違うため、厳密には「同じものを二人で同時に見る」ことができない現象だとされる。",
+      "tier": "surprising",
+      "source": "Wikipedia: 虹 / 見え方の性質",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "条件がそろえば太陽ではなく月明かりでも同じ現象が起こることがあり、色がほとんど分からないほど白っぽく淡く見える。",
+      "tier": "surprising",
+      "source": "Wikipedia: 虹 / 月による虹",
+      "guessability": 2
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "terracotta-army",
+  "word": "兵馬俑",
+  "acceptable": ["兵馬俑軍団", "テラコッタアーミー", "始皇帝の兵馬俑"],
+  "neutralGloss": "ある皇帝の墓の近くに、地下からまとめて出てきた等身大の人形の大軍団。",
+  "generalFamiliarity": 4,
+  "category": "建造物・遺跡",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "中国のある皇帝の陵墓の近くの地下から出土した、等身大の人形の大軍団。",
+      "tier": "surface",
+      "source": "Wikipedia: 兵馬俑",
+      "guessability": 4
+    },
+    {
+      "id": "f2",
+      "text": "一体ずつ顔つきが異なり、指揮官・騎兵・歩兵など役割によって姿も違う。",
+      "tier": "surface",
+      "source": "日本経済新聞: その数8000体 表情も服も違う兵馬俑",
+      "guessability": 3
+    },
+    {
+      "id": "f3",
+      "text": "世界的に有名な観光名所で、多くの旅行者が見学に訪れる。",
+      "tier": "surface",
+      "source": "Wikipedia: 兵馬俑",
+      "guessability": 4
+    },
+    {
+      "id": "f4",
+      "text": "1974年、井戸を掘っていた農民たちが偶然発見した。",
+      "tier": "specific",
+      "source": "SHAVASPACE: 秦の兵馬俑 発見の経緯",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "発掘された坑は3つに分かれ、総数は8,000体にのぼるとみられている。",
+      "tier": "specific",
+      "source": "SHAVASPACE: 秦の兵馬俑",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "あの世でも皇帝の支配が続けられるようにと、死後の守りとして埋められたと考えられている。",
+      "tier": "specific",
+      "source": "中国旅行: 兵馬俑の知られざる10の事柄",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "制作当初はどれも鮮やかな色で彩色されていたが、多くは発掘時に空気に触れて色があせてしまった。",
+      "tier": "specific",
+      "source": "ナショナルジオグラフィック日本版: 彩色の残る頭部",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "記録によれば、すぐそばにある皇帝本人の墓室の中には水銀で川や海を再現した仕掛けがあるとされるが、危険性から現在も未発掘のままである。",
+      "tier": "surprising",
+      "source": "草の実堂: 兵馬俑の最新調査について",
+      "guessability": 1
+    }
+  ]
+}

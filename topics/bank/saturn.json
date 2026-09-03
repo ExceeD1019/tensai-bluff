@@ -1,0 +1,67 @@
+{
+  "id": "saturn",
+  "word": "土星",
+  "acceptable": ["どせい", "サターン", "Saturn"],
+  "neutralGloss": "うすくて大きな環をまとった、太陽系で2番目に大きい惑星。",
+  "generalFamiliarity": 4,
+  "category": "天体・宇宙",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "太陽系の惑星の中で、非常に目立つ環を持つことで知られる。",
+      "tier": "surface",
+      "source": "Wikipedia: 土星",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "太陽系の中で木星に次いで2番目に大きい惑星。",
+      "tier": "surface",
+      "source": "Wikipedia: 土星",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "環は主に氷の粒でできており、砂粒ほどの小さなものから数メートルの塊まで、大きさはさまざま。",
+      "tier": "specific",
+      "source": "天文学辞典: 土星",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "環の厚みはわずか数十メートルほどしかなく、惑星本体の大きさに比べると驚くほど薄い。",
+      "tier": "specific",
+      "source": "宇宙旅行.com: 土星の大きさ比較",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "平均密度は水よりも小さく、太陽系の惑星の中で唯一「水に浮く」ほど軽い。",
+      "tier": "specific",
+      "source": "宇宙旅行.com: 土星は水に浮くって本当？",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "確認されている衛星の数は非常に多く、太陽系の惑星の中でも群を抜いて多い。",
+      "tier": "specific",
+      "source": "天文学辞典: 土星の衛星",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "自転が非常に速く、1日はおよそ10時間程度しかない。",
+      "tier": "surprising",
+      "source": "Wikipedia: 土星 / 自転",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "環は少しずつ本体に降り注いでおり、天文学的な時間スケールでは将来消えてしまうと考えられている。",
+      "tier": "surprising",
+      "source": "Wikipedia: 土星の環 / 起源と将来",
+      "guessability": 2
+    }
+  ]
+}

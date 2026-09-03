@@ -1,0 +1,67 @@
+{
+  "id": "statue-of-liberty",
+  "word": "自由の女神像",
+  "acceptable": ["自由の女神", "リバティー像", "Statue of Liberty"],
+  "neutralGloss": "ある港の入り口に立つ、たいまつを掲げた巨大な女性の像。移民たちを迎えてきた。",
+  "generalFamiliarity": 5,
+  "category": "建造物・遺跡",
+  "createdAt": "2026-09-03T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "ある港の入り口に立つ、たいまつを掲げた巨大な女性の像。世界的に有名な観光名所。",
+      "tier": "surface",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク)",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "フランス国民の募金によって造られ、独立100周年を祝う贈り物としてアメリカに贈られた。",
+      "tier": "surface",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク)",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "1886年に完成した。台座の上に立つ像本体の高さは約46メートル。",
+      "tier": "specific",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク) / 諸元",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "台座を含めた全体の高さは約93メートル、総重量は225トンにも及ぶ。",
+      "tier": "specific",
+      "source": "世界雑学ノート: 自由の女神の高さ・重さ・大きさ",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "頭部の冠の展望台までは、らせん階段を354段のぼる必要があり、エレベーターは無い。",
+      "tier": "specific",
+      "source": "ネイティブキャンプ英会話ブログ: 自由の女神像 内部見学",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "表面は薄い銅板でできており、当初は明るい銅色だったが、酸化して現在の緑色になった。",
+      "tier": "specific",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク) / 構造",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "台座部分の建設資金が不足した際、一般市民からの少額の寄付を新聞が呼びかけて集め、建設費を賄った。",
+      "tier": "surprising",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク) / 建設",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "足元にはちぎれた鎖が横たわっており、圧政や隷属からの解放を象徴する、あまり目立たないディテールがある。",
+      "tier": "surprising",
+      "source": "Wikipedia: 自由の女神像 (ニューヨーク) / 象徴",
+      "guessability": 2
+    }
+  ]
+}
