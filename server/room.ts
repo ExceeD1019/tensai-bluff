@@ -129,7 +129,7 @@ export class Room {
         // 天才は判定に関与せず、結果発表の演出役として残る（3.5.1）
         if (this.phase === "wordGuess" && this.round && playerId === this.round.geniusId) {
           this.round.announced = true;
-          this.broadcast(`天才の${this.players.get(playerId)?.name ?? ""}「頭のいいあなたなら分かりますよね？」`);
+          this.broadcast(`${this.players.get(playerId)?.name ?? ""}が結果を宣告しました`);
         }
         break;
       case "finishWordGuess":

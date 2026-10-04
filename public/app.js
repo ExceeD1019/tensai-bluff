@@ -13,7 +13,7 @@ function h(tag, props = {}, ...kids) {
   const e = document.createElement(tag);
   for (const [k, v] of Object.entries(props)) {
     if (k === "class") e.className = v;
-    else if (k === "onclick") e.onclick = v;
+    else if (k.startsWith("on")) e[k] = v;
     else if (k === "html") e.innerHTML = v;
     else if (v !== false && v != null) e.setAttribute(k, v);
   }
@@ -131,10 +131,21 @@ function playerList(extra) {
   ));
 }
 
+// ホストの入力中の値。他プレイヤーの参加/離脱などで再描画されても、
+// 保存前の編集中の値が server の古い設定で上書きされないよう保持する
+let settingsDraft = null;
+
 function renderLobby() {
   const s = state.settings;
   const host = isHost();
-  const num = (id, val, min, max, step) => h("input", { id, type: "number", value: val, min, max, step: step || 1, disabled: !host });
+  if (!host) settingsDraft = null;
+  else if (!settingsDraft) settingsDraft = { ...s };
+  const draft = host ? settingsDraft : s;
+
+  const num = (id, key, min, max, step) => h("input", {
+    id, type: "number", value: draft[key], min, max, step: step || 1, disabled: !host,
+    oninput: (e) => { settingsDraft[key] = e.target.value; },
+  });
   setScreen(
     h("div", { class: "panel" },
       h("h2", {}, "ロビー"),
@@ -143,14 +154,14 @@ function renderLobby() {
     ),
     h("div", { class: "panel" },
       h("h3", {}, "設定" + (host ? "" : "（ホストのみ変更可）")),
-      h("label", {}, "記憶時間（秒）"), num("st-mem", s.memorySec, 10, 180),
-      h("label", {}, "自由議論（秒）"), num("st-dis", s.discussionSec, 30, 900, 30),
-      h("label", {}, "潜入者に渡す事実の枚数（0〜3）"), num("st-imp", s.impostorFactCount, 0, 3),
+      h("label", {}, "記憶時間（秒）"), num("st-mem", "memorySec", 10, 180),
+      h("label", {}, "自由議論（秒）"), num("st-dis", "discussionSec", 30, 900, 30),
+      h("label", {}, "潜入者に渡す事実の枚数（0〜3）"), num("st-imp", "impostorFactCount", 0, 3),
       host ? h("div", { class: "row", style: "margin-top:12px" },
         h("button", { class: "sm", onclick: () => send({ t: "config", settings: {
-          memorySec: +document.getElementById("st-mem").value,
-          discussionSec: +document.getElementById("st-dis").value,
-          impostorFactCount: +document.getElementById("st-imp").value,
+          memorySec: +settingsDraft.memorySec,
+          discussionSec: +settingsDraft.discussionSec,
+          impostorFactCount: +settingsDraft.impostorFactCount,
         } }) }, "設定を保存"),
       ) : null,
     ),
@@ -242,7 +253,7 @@ function renderWordGuess() {
 
     amGenius ? h("div", { class: "panel" },
       h("h3", {}, "あなたは天才"),
-      h("p", { class: "hint" }, "正誤の判定はシステムが自動で行います。全員の回答が出そろったら宣告してください。「頭のいいあなたなら分かりますよね？」"),
+      h("p", { class: "hint" }, "正誤の判定はシステムが自動で行います。全員の回答が出そろったら宣告してください。"),
       h("div", { class: "row end" },
         h("button", { class: "sm" + (wg.announced ? " sel" : ""), onclick: () => send({ t: "announceWordGuess" }) },
           wg.announced ? "宣告済み" : "結果を宣告する"),
