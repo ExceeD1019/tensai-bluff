@@ -251,16 +251,19 @@ function renderWordGuess() {
 
     h("div", { class: "panel" },
       h("h3", {}, "専門家の回答"),
+      h("p", { class: "hint" }, "他の人の回答は、天才が宣告するまで内容も正誤も分かりません（自分の回答以外）。"),
       wg.expertIds.map((id) => {
+        const submitted = wg.submittedIds.includes(id);
         const g = wg.guesses[id];
         const v = wg.verdicts[id];
-        const label = v === true ? "秀才" : v === false ? "知ったかぶりバカ" : "天才の発表待ち";
+        const label = v === true ? "秀才" : v === false ? "知ったかぶりバカ" : submitted ? "判定待ち" : "未提出";
+        const text = g != null ? "「" + g + "」" : submitted ? "（回答は伏せられています）" : "（未提出）";
         return h("div", { style: "margin-bottom:10px" },
           h("div", { class: "row", style: "justify-content:space-between" },
             h("strong", {}, nameOf(id)),
-            h("span", { class: "tag" }, g == null ? "未提出" : label),
+            h("span", { class: "tag" }, label),
           ),
-          h("p", { class: "hint" }, g == null ? "（未提出）" : "「" + g + "」"),
+          h("p", { class: "hint" }, text),
         );
       }),
     ),

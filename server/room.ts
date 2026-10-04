@@ -381,16 +381,23 @@ export class Room {
     }
 
     if (this.phase === "wordGuess") {
-      // 正誤は判定済みだが、天才が「宣告」するまでは本人と天才以外には伏せる（結果宣告の演出・3.5.1）
+      // 各専門家の回答は個別回答（共同回答ではない・3.5.1）なので、他の専門家には見せない。
+      // 正誤も、天才が「宣告」するまでは本人含めだれにも分からない（結果宣告の演出）。
+      // 天才だけは常に両方見える（宣告役として内容を把握する必要がある）
       const isGenius = playerId === r.geniusId;
+      const guesses: Record<string, string> = {};
+      for (const [id, g] of r.wordGuesses) {
+        if (isGenius || r.announced || id === playerId) guesses[id] = g;
+      }
       const verdicts: Record<string, boolean> = {};
       for (const [id, v] of r.wordVerdicts) {
-        if (isGenius || r.announced || id === playerId) verdicts[id] = v;
+        if (isGenius || r.announced) verdicts[id] = v;
       }
       base.wordGuess = {
         geniusId: r.geniusId ?? "",
         expertIds: this.expertIds(),
-        guesses: Object.fromEntries(r.wordGuesses),
+        submittedIds: [...r.wordGuesses.keys()],
+        guesses,
         verdicts,
         announced: r.announced,
       };

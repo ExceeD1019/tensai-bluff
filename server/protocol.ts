@@ -68,8 +68,11 @@ export interface StateMsg {
   wordGuess?: {
     geniusId: string; // 生存した潜入者。判定はしない、結果宣告の演出役
     expertIds: string[];
-    guesses: Record<string, string>; // expertId -> 回答テキスト
-    verdicts: Record<string, boolean>; // expertId -> 正解か（自動判定、提出と同時に確定）
+    submittedIds: string[]; // 提出済みの専門家（内容は見えなくても提出済みかは分かる）
+    /** expertId -> 回答テキスト。他の専門家の回答は見せない（天才・本人・宣告後のみ見える） */
+    guesses: Record<string, string>;
+    /** expertId -> 正解か（自動判定）。天才以外は宣告されるまで誰にも見えない（本人含む） */
+    verdicts: Record<string, boolean>;
     announced: boolean; // 天才が「結果発表」を宣言したか（演出フラグ。得点には影響しない）
   };
 
