@@ -87,10 +87,6 @@ ul.plist li:last-child { border: 0; }
 .fact { padding: 8px 10px; background: var(--panel-2); border-radius: 8px; margin-bottom: 6px; }
 .fact .t { font-size: 0.7rem; color: var(--dim); }
 
-.turn { padding: 8px 12px; border-radius: 8px; margin-bottom: 5px; background: var(--panel-2); display: flex; justify-content: space-between; }
-.turn.now { background: #2b3a54; border: 1px solid var(--accent); font-weight: 700; }
-.turn.done { opacity: 0.45; }
-
 .banner { padding: 12px; border-radius: 10px; margin-bottom: 12px; font-weight: 700; text-align: center; }
 .banner.good { background: #1c3d28; color: var(--good); }
 .banner.bad { background: #3d1c1c; color: var(--bad); }

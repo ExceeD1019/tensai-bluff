@@ -110,7 +110,7 @@ function render() {
   roomcodeEl.textContent = state.code || "";
   startTimerTick();
   const fn = ({
-    lobby: renderLobby, memory: renderMemory, speaking: renderSpeaking,
+    lobby: renderLobby, memory: renderMemory,
     discussion: renderDiscussion, voting: renderVoting, wordGuess: renderWordGuess,
     scoreboard: renderScoreboard,
   })[state.phase] || renderLobby;
@@ -176,46 +176,20 @@ function renderMemory() {
         f.text,
       )),
     ),
-    h("p", { class: "hint" }, "時間切れで自動的に発言フェーズへ進みます。"),
-  );
-}
-
-function renderSpeaking() {
-  const sp = state.speaking;
-  const curId = sp.order[sp.index % sp.order.length];
-  const myTurn = curId === state.you;
-  const rows = sp.order.map((id, i) => {
-    const spokenR1 = sp.index > i;
-    const spokenR2 = sp.index > i + sp.order.length;
-    const now = id === curId;
-    return h("div", { class: "turn " + (now ? "now" : (spokenR1 && (sp.round === 1 || spokenR2) ? "done" : "")) },
-      h("span", {}, (i + 1) + ". " + nameOf(id)),
-      h("span", { class: "tag" }, now ? "発言中" : ""),
-    );
-  });
-  app.replaceChildren(
-    h("div", { class: "panel" },
-      h("h2", {}, (sp.round) + "周目 / 2"),
-      state.topicWord
-        ? h("p", {}, "お題：", h("strong", {}, state.topicWord), h("span", { class: "hint" }, "（潜入者のあなただけが知っています）"))
-        : h("p", { class: "hint" }, "お題の単語は分かりません。情報から推測して話してください。"),
-      h("p", { class: "hint" }, "詳細情報はもう見られません。自分の番になったらお題について1つだけ話す。質問・追及は次の自由議論で。"),
-      rows,
-    ),
-    h("div", { class: "row end" },
-      myTurn ? h("button", { class: "primary", onclick: () => send({ t: "advance" }) }, "話し終えた（次へ）") : null,
-      isHost() && !myTurn ? h("button", { class: "sm", onclick: () => send({ t: "advance" }) }, "次へ（ホスト）") : null,
-    ),
-    myTurn ? h("p", { class: "banner good" }, "あなたの番です") : null,
+    h("p", { class: "hint" }, "時間切れで自動的に自由議論へ進みます。"),
   );
 }
 
 function renderDiscussion() {
+  const imp = state.role === "impostor";
   app.replaceChildren(
     h("div", { class: "panel" },
       h("h2", {}, "自由議論"),
       h("div", { class: "big-timer", "data-deadline": state.deadline }, "…"),
-      h("p", { class: "hint", style: "margin-top:8px" }, "声で自由に質問・追及。時間切れ、またはホストの操作で投票へ。"),
+      imp
+        ? h("p", { style: "margin-top:8px" }, "お題：", h("strong", {}, state.topicWord), h("span", { class: "hint" }, "（あなただけが知っています）"))
+        : h("p", { class: "hint", style: "margin-top:8px" }, "お題の単語は分かりません。詳細情報から推測して話してください。"),
+      h("p", { class: "hint", style: "margin-top:8px" }, "声で自由に発言・質問・追及。時間切れ、またはホストの操作で投票へ。"),
     ),
     isHost() ? h("div", { class: "row end" }, h("button", { class: "primary", onclick: () => send({ t: "toVote" }) }, "投票へ")) : null,
   );

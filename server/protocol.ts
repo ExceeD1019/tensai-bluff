@@ -8,10 +8,9 @@ export type FactView = Omit<Fact, "source">;
 export type Phase =
   | "lobby"
   | "memory"
-  | "speaking"
   | "discussion"
   | "voting"
-  | "wordGuess" // 潜入者を取り逃したときの敗者復活戦（3.6.1）
+  | "wordGuess" // 潜入者を取り逃したときの敗者復活戦（3.5.1）
   | "scoreboard";
 
 export type Role = "expert" | "impostor";
@@ -54,9 +53,6 @@ export interface StateMsg {
   /** フェーズの締切（epoch ms）。タイマー表示用 */
   deadline?: number;
 
-  /** speaking */
-  speaking?: { order: string[]; index: number; round: 1 | 2; total: number };
-
   /** voting */
   voting?: { voted: string[]; yourVote?: string };
 
@@ -68,7 +64,7 @@ export interface StateMsg {
     misvoters: string[]; // 誤認した専門家
   };
 
-  /** wordGuess（単語当て・3.6.1）。正誤は acceptable 配列でサーバが自動判定する */
+  /** wordGuess（単語当て・3.5.1）。正誤は acceptable 配列でサーバが自動判定する */
   wordGuess?: {
     geniusId: string; // 生存した潜入者。判定はしない、結果宣告の演出役
     expertIds: string[];
@@ -99,7 +95,6 @@ export type ClientMsg =
   | { t: "join"; name: string; code?: string }
   | { t: "config"; settings: Partial<Settings> }
   | { t: "start" }
-  | { t: "advance" } // 発言を次へ
   | { t: "toVote" } // 議論を切り上げて投票へ
   | { t: "vote"; target: string }
   | { t: "wordGuess"; text: string } // 専門家が単語を回答（正誤はサーバが自動判定）

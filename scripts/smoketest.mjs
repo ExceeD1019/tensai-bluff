@@ -50,15 +50,6 @@ async function main() {
   const impostor = clients.find((c) => c.state.role === "impostor");
   console.log("impostor:", impostor.name);
 
-  await waitPhase("speaking");
-  console.log("speaking...");
-  for (let g = 0; g < 40 && phase() === "speaking"; g++) {
-    const sp = host().state.speaking;
-    const cur = clients.find((c) => c.state.you === sp.order[sp.index % sp.order.length]);
-    send(cur, { t: "advance" });
-    await sleep(120);
-  }
-
   await waitPhase("discussion");
   console.log("discussion...");
   await waitPhase("voting");
@@ -79,7 +70,7 @@ async function main() {
   console.log(`reveal: caught=${rv.caught} misvoters=${rv.misvoters.map((id) => host().state.players.find((p) => p.id === id)?.name).join(",")}`);
   const word = impostor.state.topicWord;
   console.log("word:", word);
-  // 正誤はサーバが acceptable 配列で自動判定する（3.6.1）。天才は宣告するだけ
+  // 正誤はサーバが acceptable 配列で自動判定する（3.5.1）。天才は宣告するだけ
   for (const c of clients) {
     if (c.state.role === "expert") send(c, { t: "wordGuess", text: c === scapegoat ? word : "でたらめ" });
     await sleep(60);

@@ -27,8 +27,6 @@ interface RoundState {
   expertFacts: Fact[];
   /** 潜入者ごとに独立して配る（相方が誰かは知らせない） */
   impostorBriefs: Map<string, { word: string; neutralGloss: string; facts: Fact[] }>;
-  order: string[]; // speaking順（playerId）。2周とも同じ
-  speakIndex: number; // 0..2N
   votes: Map<string, string>;
   caught: boolean;
   misvoters: string[];
@@ -112,9 +110,6 @@ export class Room {
       case "start":
         if (isHost && this.phase === "lobby") void this.startRound();
         break;
-      case "advance":
-        this.advanceSpeaking(playerId, isHost);
-        break;
       case "toVote":
         if (isHost && this.phase === "discussion") this.toVoting();
         break;
@@ -125,13 +120,13 @@ export class Room {
         if (this.phase === "wordGuess" && this.round && this.round.roleOf.get(playerId) === "expert") {
           const text = msg.text.slice(0, 60);
           this.round.wordGuesses.set(playerId, text);
-          // 正誤は acceptable 配列でサーバが自動判定する（3.1・3.6.1）。人間の裁定者は不要
+          // 正誤は acceptable 配列でサーバが自動判定する（3.1・3.5.1）。人間の裁定者は不要
           this.round.wordVerdicts.set(playerId, isAcceptableGuess(text, this.round.topic));
           this.broadcast();
         }
         break;
       case "announceWordGuess":
-        // 天才は判定に関与せず、結果発表の演出役として残る（3.6.1）
+        // 天才は判定に関与せず、結果発表の演出役として残る（3.5.1）
         if (this.phase === "wordGuess" && this.round && playerId === this.round.geniusId) {
           this.round.announced = true;
           this.broadcast(`天才の${this.players.get(playerId)?.name ?? ""}「頭のいいあなたなら分かりますよね？」`);
@@ -187,8 +182,6 @@ export class Room {
       impostorIds,
       expertFacts: topic.facts,
       impostorBriefs,
-      order: shuffle([...ids]),
-      speakIndex: 0,
       votes: new Map(),
       caught: false,
       misvoters: [],
@@ -202,26 +195,9 @@ export class Room {
     };
 
     this.phase = "memory";
-    this.setDeadline(this.settings.memorySec, () => this.toSpeaking());
+    this.setDeadline(this.settings.memorySec, () => this.toDiscussion());
     this.notice = undefined;
     this.broadcast();
-  }
-
-  private toSpeaking(): void {
-    this.clearTimer();
-    this.phase = "speaking";
-    this.broadcast();
-  }
-
-  private advanceSpeaking(playerId: string, isHost: boolean): void {
-    if (this.phase !== "speaking" || !this.round) return;
-    const r = this.round;
-    const n = r.order.length;
-    const currentSpeaker = r.order[r.speakIndex % n];
-    if (playerId !== currentSpeaker && !isHost) return;
-    r.speakIndex += 1;
-    if (r.speakIndex >= n * 2) this.toDiscussion();
-    else this.broadcast();
   }
 
   private toDiscussion(): void {
@@ -251,7 +227,7 @@ export class Room {
 
   private resolveVote(): void {
     const r = this.round!;
-    // 集計（潜入者の票は除外。3.6）
+    // 集計（潜入者の票は除外。3.5）
     const tally = new Map<string, number>();
     for (const [voter, target] of r.votes.entries()) {
       if (r.impostorIds.includes(voter)) continue;
@@ -273,7 +249,7 @@ export class Room {
     if (r.caught || !r.geniusId) {
       this.finishRound(); // 特定成功、または裁定できる天才がいない → そのままスコアへ
     } else {
-      this.phase = "wordGuess"; // 取り逃し → 敗者復活戦（3.6.1）
+      this.phase = "wordGuess"; // 取り逃し → 敗者復活戦（3.5.1）
       this.broadcast();
     }
   }
@@ -391,15 +367,6 @@ export class Room {
       }
     }
 
-    if (this.phase === "speaking") {
-      base.speaking = {
-        order: r.order,
-        index: r.speakIndex,
-        round: r.speakIndex < r.order.length ? 1 : 2,
-        total: r.order.length * 2,
-      };
-    }
-
     if (this.phase === "voting") {
       base.voting = { voted: [...r.votes.keys()], yourVote: r.votes.get(playerId) };
     }
@@ -414,7 +381,7 @@ export class Room {
     }
 
     if (this.phase === "wordGuess") {
-      // 正誤は判定済みだが、天才が「宣告」するまでは本人と天才以外には伏せる（結果宣告の演出・3.6.1）
+      // 正誤は判定済みだが、天才が「宣告」するまでは本人と天才以外には伏せる（結果宣告の演出・3.5.1）
       const isGenius = playerId === r.geniusId;
       const verdicts: Record<string, boolean> = {};
       for (const [id, v] of r.wordVerdicts) {
