@@ -26,6 +26,11 @@ function h(tag, props = {}, ...kids) {
 function send(obj) {
   if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(obj));
 }
+// replaceChildren(null) inserts the literal text "null" (DOM coerces it to a string),
+// unlike h()'s own children which are filtered. Drop falsy slots before handing them over.
+function setScreen(...nodes) {
+  app.replaceChildren(...nodes.filter((n) => n != null && n !== false));
+}
 let toastT;
 function toast(msg) {
   toastEl.textContent = msg;
@@ -87,7 +92,7 @@ function renderJoin() {
   roomcodeEl.textContent = "";
   const name = h("input", { id: "j-name", placeholder: "名前", value: localStorage.getItem("tb_name") || "", maxlength: 20 });
   const code = h("input", { id: "j-code", placeholder: "部屋コード（参加する場合）", value: "", maxlength: 4, style: "text-transform:uppercase" });
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "panel" },
       h("h2", {}, "はじめる"),
       h("label", {}, "名前"), name,
@@ -130,7 +135,7 @@ function renderLobby() {
   const s = state.settings;
   const host = isHost();
   const num = (id, val, min, max, step) => h("input", { id, type: "number", value: val, min, max, step: step || 1, disabled: !host });
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "panel" },
       h("h2", {}, "ロビー"),
       h("p", {}, "部屋コード ", h("span", { class: "mono", style: "color:var(--accent);font-size:1.2rem" }, state.code), " を友達に伝えてください。"),
@@ -158,7 +163,7 @@ function renderLobby() {
 function renderMemory() {
   const b = state.brief || { facts: [] };
   const imp = state.role === "impostor";
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "panel" },
       h("div", { class: "row", style: "justify-content:space-between" },
         h("span", { class: "role-badge " + (imp ? "role-impostor" : "role-expert") }, imp ? "潜入者" : "専門家"),
@@ -182,7 +187,7 @@ function renderMemory() {
 
 function renderDiscussion() {
   const imp = state.role === "impostor";
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "panel" },
       h("h2", {}, "自由議論"),
       h("div", { class: "big-timer", "data-deadline": state.deadline }, "…"),
@@ -197,7 +202,7 @@ function renderDiscussion() {
 
 function renderVoting() {
   const v = state.voting;
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "panel" },
       h("h2", {}, "投票：潜入者だと思う人を1人"),
       h("p", { class: "hint" }, "全員が入れたら結果を公開。潜入者以外を指すと誤認（称号のみ・減点なし）。"),
@@ -218,7 +223,7 @@ function renderWordGuess() {
   const impNames = r.impostorIds.map(nameOf).join("、");
   const myGuess = wg.guesses[state.you] || "";
 
-  app.replaceChildren(
+  setScreen(
     h("div", { class: "banner bad" }, "潜入者 " + impNames + " は逃げ切った（天才）"),
     r.misvoters.length ? h("p", { class: "hint" }, "誤認：" + r.misvoters.map(nameOf).join("、")) : null,
 
@@ -274,7 +279,7 @@ function renderScoreboard() {
   const titles = sb.titles || {};
   const sorted = [...state.players].sort((x, y) => y.score - x.score);
   const impNames = r ? r.impostorIds.map(nameOf).join("、") : "";
-  app.replaceChildren(
+  setScreen(
     r ? h("div", { class: "banner " + (r.caught ? "good" : "bad") },
       r.caught ? "潜入者 " + impNames + " を特定！" : "潜入者 " + impNames + " は逃げ切った（天才）",
     ) : null,
@@ -301,7 +306,7 @@ function renderScoreboard() {
 // ---- boot ----
 if (localStorage.getItem("tb_name") && localStorage.getItem("tb_code")) {
   connect(localStorage.getItem("tb_name"), localStorage.getItem("tb_code"));
-  app.replaceChildren(h("p", { class: "hint" }, "接続中…"));
+  setScreen(h("p", { class: "hint" }, "接続中…"));
 } else {
   renderJoin();
 }
