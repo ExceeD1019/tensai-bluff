@@ -1,0 +1,67 @@
+{
+  "id": "machu-picchu",
+  "word": "マチュ・ピチュ",
+  "acceptable": ["マチュピチュ遺跡", "Machu Picchu"],
+  "neutralGloss": "雲がかかるほど険しい山の上に、ひっそりと残された石造りの古い都市の跡。",
+  "generalFamiliarity": 4,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "南米の険しい山の尾根に築かれた、石造りの古代都市の遺跡。",
+      "tier": "surface",
+      "source": "Wikipedia: マチュ・ピチュ",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "山の上にあって麓からは見えにくいことから、「空中都市」と呼ばれる。",
+      "tier": "surface",
+      "source": "Wikipedia: マチュ・ピチュ",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "15世紀半ばごろ、インカ帝国の皇帝パチャクテクの離宮（王の領地）として建てられたと考えられている。",
+      "tier": "specific",
+      "source": "Wikipedia: マチュ・ピチュ / 歴史",
+      "guessability": 1
+    },
+    {
+      "id": "f4",
+      "text": "ペルーのアンデス山中、標高約2400メートルの地点にある。",
+      "tier": "specific",
+      "source": "Wikipedia: マチュ・ピチュ / 地理",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "1911年、アメリカの探検家ハイラム・ビンガムによって世界に広く知られるようになった。",
+      "tier": "specific",
+      "source": "Wikipedia: マチュ・ピチュ / 再発見",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "1983年、自然と文化の両方の価値をもつ「複合遺産」として世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Historic Sanctuary of Machu Picchu",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "神殿などの重要な建物の石組みは、モルタルを使わずに、カミソリの刃も通らないほど精密に石同士をかみ合わせている。",
+      "tier": "surprising",
+      "source": "Wikipedia: マチュ・ピチュ / 建築",
+      "guessability": 2
+    },
+    {
+      "id": "f8",
+      "text": "スペインの征服者たちには見つからなかったため、破壊を免れて当時に近い姿のまま残った。",
+      "tier": "surprising",
+      "source": "Wikipedia: マチュ・ピチュ / 歴史",
+      "guessability": 2
+    }
+  ]
+}

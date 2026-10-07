@@ -1,0 +1,67 @@
+{
+  "id": "himeji-castle",
+  "word": "姫路城",
+  "acceptable": ["白鷺城", "しらさぎじょう", "ひめじじょう", "はくろじょう"],
+  "neutralGloss": "まぶしいほど白い壁をまとい、何層にも屋根を重ねた、ある国の古いお城。",
+  "generalFamiliarity": 4,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "兵庫県にある、真っ白で美しい外観の日本の城。",
+      "tier": "surface",
+      "source": "Wikipedia: 姫路城",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "その白さから、羽を広げて舞う白い鳥にたとえた別名で呼ばれている。",
+      "tier": "surface",
+      "source": "Wikipedia: 姫路城 / 別名",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "1993年、奈良の法隆寺とともに、日本で最初の世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Himeji-jo",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "現在の大天守は、江戸時代の初め（1609年）に城主の池田輝政が完成させたもの。",
+      "tier": "specific",
+      "source": "Wikipedia: 姫路城 / 歴史",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "大天守は外から見ると5重の屋根だが、内部は地上6階・地下1階の構造になっている。",
+      "tier": "specific",
+      "source": "Wikipedia: 姫路城 / 天守",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "江戸時代以前から天守が残る全国12の「現存天守」の一つで、国宝にも指定されている。",
+      "tier": "specific",
+      "source": "Wikipedia: 現存天守",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "第二次世界大戦の空襲で城下町は焼け野原になったが、大天守に落ちた焼夷弾が不発だったこともあり、奇跡的に焼け残った。",
+      "tier": "surprising",
+      "source": "Wikipedia: 姫路城 / 近現代",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "明治の初めに城が競売にかけられ、わずか23円50銭で落札されたが、解体費用が高すぎて結局取り壊されなかったと伝わる。",
+      "tier": "surprising",
+      "source": "Wikipedia: 姫路城 / 明治以降",
+      "guessability": 1
+    }
+  ]
+}

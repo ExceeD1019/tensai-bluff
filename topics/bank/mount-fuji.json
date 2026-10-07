@@ -1,0 +1,67 @@
+{
+  "id": "mount-fuji",
+  "word": "富士山",
+  "acceptable": ["富士", "ふじさん", "富士の山", "Mount Fuji", "Mt. Fuji", "Fujisan"],
+  "neutralGloss": "ある島国のシンボルとして親しまれる、裾野の広い美しい形の山。",
+  "generalFamiliarity": 5,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "日本で最も高い山で、左右に美しく裾野が広がる円すい形の姿で知られる。",
+      "tier": "surface",
+      "source": "Wikipedia: 富士山",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "山梨県と静岡県にまたがってそびえている。",
+      "tier": "surface",
+      "source": "Wikipedia: 富士山 / 地理",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "標高は3776メートル。",
+      "tier": "specific",
+      "source": "国土地理院: 日本の主な山岳標高",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "最後の噴火は1707年（江戸時代）で、遠く離れた江戸の町にまで火山灰が降り積もった。",
+      "tier": "specific",
+      "source": "Wikipedia: 宝永大噴火",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "八合目より上の大部分は、ふもとにある神社の境内地（私有地）とされている。",
+      "tier": "specific",
+      "source": "Wikipedia: 富士山 / 山頂の所有",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "浮世絵師の葛飾北斎が、この山をさまざまな場所から描いた連作の風景画を残している。",
+      "tier": "specific",
+      "source": "Wikipedia: 富嶽三十六景",
+      "guessability": 2
+    },
+    {
+      "id": "f7",
+      "text": "2013年に世界遺産に登録されたが、自然遺産ではなく「信仰の対象と芸術の源泉」として文化遺産での登録だった。",
+      "tier": "surprising",
+      "source": "文化庁: 世界遺産 富士山―信仰の対象と芸術の源泉",
+      "guessability": 2
+    },
+    {
+      "id": "f8",
+      "text": "世界遺産の構成資産には、山から約45キロメートルも離れた海岸の松原も含まれている。",
+      "tier": "surprising",
+      "source": "Wikipedia: 三保松原",
+      "guessability": 1
+    }
+  ]
+}

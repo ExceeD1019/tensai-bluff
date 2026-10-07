@@ -7,7 +7,7 @@ import { dealImpostorFacts } from "../src/game/impostorFacts.js";
 const fixture = TopicSchema.parse(
   JSON.parse(
     readFileSync(
-      fileURLToPath(new URL("../topics/bank/statue-of-liberty.json", import.meta.url)),
+      fileURLToPath(new URL("../topics/bank/great-wall.json", import.meta.url)),
       "utf8",
     ),
   ),
@@ -18,7 +18,7 @@ describe("dealImpostorFacts()", () => {
     const b = dealImpostorFacts(fixture, 0);
     expect(b.facts).toHaveLength(0);
     expect(b.neutralGloss).toBe(fixture.neutralGloss);
-    expect(b.word).toBe("自由の女神像");
+    expect(b.word).toBe("万里の長城");
   });
 
   it("1枚なら表層1つ", () => {

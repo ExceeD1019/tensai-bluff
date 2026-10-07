@@ -1,0 +1,67 @@
+{
+  "id": "great-wall",
+  "word": "万里の長城",
+  "acceptable": ["長城", "ばんりのちょうじょう", "グレートウォール", "Great Wall", "Great Wall of China"],
+  "neutralGloss": "ある大国の北の大地を、山の尾根づたいにどこまでも這うように続く、とてつもなく長い壁。",
+  "generalFamiliarity": 5,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "中国の北部を東西に延々と続く、長大な防御用の城壁。山の尾根に沿ってうねるように延びている。",
+      "tier": "surface",
+      "source": "Wikipedia: 万里の長城",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "北方の遊牧民族の侵入を防ぐために、何世代もの王朝にわたって築かれ続けた。",
+      "tier": "surface",
+      "source": "Wikipedia: 万里の長城 / 歴史",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "秦の始皇帝が、それまで各国が別々に築いていた壁をつなぎ合わせて整備したことで知られる。",
+      "tier": "specific",
+      "source": "Wikipedia: 万里の長城 / 秦",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "現在観光地で見られるレンガ造りの堅固な部分の多くは、秦の時代ではなく、ずっと後の明の時代に築かれたもの。",
+      "tier": "specific",
+      "source": "Wikipedia: 万里の長城 / 明",
+      "guessability": 2
+    },
+    {
+      "id": "f5",
+      "text": "2012年に中国政府が発表した調査では、歴代の王朝が築いた壁をすべて合計した総延長は約2万1千キロメートルとされた。",
+      "tier": "specific",
+      "source": "Wikipedia: 万里の長城 / 総延長",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "1987年に世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: The Great Wall",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "「宇宙から肉眼で見える唯一の建造物」という有名な俗説は誤り。中国初の宇宙飛行士も、宇宙からは見えなかったと語っている。",
+      "tier": "surprising",
+      "source": "Wikipedia: 万里の長城 / 宇宙から見えるという俗説",
+      "guessability": 2
+    },
+    {
+      "id": "f8",
+      "text": "明の時代の一部の区間では、石灰にもち米の汁を混ぜたモルタルが使われ、壁の強度を高めていた。",
+      "tier": "surprising",
+      "source": "Yang et al. (2010) Accounts of Chemical Research: もち米石灰モルタル",
+      "guessability": 1
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "mont-saint-michel",
+  "word": "モン・サン＝ミシェル",
+  "acceptable": ["モンサンミシェル", "モンサンミッシェル", "モン・サン・ミッシェル", "Mont-Saint-Michel", "Mont Saint-Michel", "Mont Saint Michel"],
+  "neutralGloss": "潮の満ち引きで海に浮かんだり陸続きになったりする小島に、祈りの建物がそびえる風景。",
+  "generalFamiliarity": 4,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "フランスの海辺に浮かぶ小さな岩山の島に、修道院がそびえ立つ景観。",
+      "tier": "surface",
+      "source": "Wikipedia: モン・サン＝ミシェル",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "潮が満ちると島が海に囲まれ、まるで海に浮かんでいるように見える。",
+      "tier": "surface",
+      "source": "Wikipedia: モン・サン＝ミシェル",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "8世紀初め、地元の司教が夢の中で大天使ミカエルのお告げを受け、礼拝堂を建てたのが始まりとされる。",
+      "tier": "specific",
+      "source": "Wikipedia: モン・サン＝ミシェル / 歴史",
+      "guessability": 1
+    },
+    {
+      "id": "f4",
+      "text": "周辺の湾は干満の差が非常に大きく、最大で約15メートルにも達する。",
+      "tier": "specific",
+      "source": "Wikipedia: モン・サン＝ミシェル / 地理",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "名物料理は、卵をたっぷり泡立てて焼き上げる、ふわふわの巨大なオムレツ。",
+      "tier": "specific",
+      "source": "Wikipedia: モン・サン＝ミシェル / 名物",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "1979年、周辺の湾とあわせて世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Mont-Saint-Michel and its Bay",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "フランス革命の後には修道院が監獄として使われ、「海のバスティーユ」と呼ばれた。",
+      "tier": "surprising",
+      "source": "Wikipedia: モン・サン＝ミシェル / 監獄",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "本土と結ぶ堤防道路のせいで砂がたまり陸地化が進んだため、堤防を取り壊して、潮が流れる橋に架け替えた（2014年完成）。",
+      "tier": "surprising",
+      "source": "Wikipedia: モン・サン＝ミシェル / 景観回復事業",
+      "guessability": 1
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "taj-mahal",
+  "word": "タージ・マハル",
+  "acceptable": ["タージマハール", "タージ・マハール", "Taj Mahal"],
+  "neutralGloss": "ある国の川辺にたたずむ、真っ白で左右対称の壮麗な建物。深い愛の物語とともに語られる。",
+  "generalFamiliarity": 4,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "インドにある、白い大理石でできた左右対称の壮麗な建物。",
+      "tier": "surface",
+      "source": "Wikipedia: タージ・マハル",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "玉ねぎ形の大きなドーム屋根と、四隅に立つ細長い塔が特徴的な外観。",
+      "tier": "surface",
+      "source": "Wikipedia: タージ・マハル / 建築",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "17世紀、ムガル帝国の皇帝シャー・ジャハーンが、出産で亡くなった最愛の妃のために建てた墓廟。",
+      "tier": "specific",
+      "source": "Wikipedia: タージ・マハル / 歴史",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "1632年ごろに着工し、2万人ともいわれる職人を動員して20年あまりをかけて完成した。",
+      "tier": "specific",
+      "source": "Wikipedia: タージ・マハル / 建設",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "都市アーグラのヤムナー川のほとりに建ち、正面には水路と庭園が一直線に延びている。",
+      "tier": "specific",
+      "source": "Wikipedia: タージ・マハル / 庭園",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "1983年に世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Taj Mahal",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "四隅の塔はわずかに外側へ傾けて建てられており、地震などで倒れても中央のドームを直撃しないよう配慮されたといわれる。",
+      "tier": "surprising",
+      "source": "Wikipedia: タージ・マハル / ミナレット",
+      "guessability": 1
+    },
+    {
+      "id": "f8",
+      "text": "建てた皇帝は晩年、息子に皇位を奪われて近くの城塞に幽閉され、そこからこの建物を眺めて過ごしたと伝わる。",
+      "tier": "surprising",
+      "source": "Wikipedia: シャー・ジャハーン / 晩年",
+      "guessability": 1
+    }
+  ]
+}

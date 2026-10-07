@@ -13,7 +13,7 @@ function loadBank(): Topic[] {
 }
 
 const bank = loadBank();
-const fixture = bank.find((t) => t.id === "statue-of-liberty")!;
+const fixture = bank.find((t) => t.id === "great-wall")!;
 
 function codes(t: Topic): string[] {
   return checkStructure(t).map((i) => i.code);
@@ -58,7 +58,7 @@ describe("checkStructure()", () => {
 
   it("neutralGloss に年号が混じると GLOSS_LEAK", () => {
     const t = structuredClone(fixture);
-    t.neutralGloss = "1889年にパリに建てられた鉄の塔。";
+    t.neutralGloss = "1987年に登録された長い城壁。";
     expect(codes(t)).toContain("GLOSS_LEAK");
   });
 });

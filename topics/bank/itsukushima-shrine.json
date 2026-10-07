@@ -1,0 +1,67 @@
+{
+  "id": "itsukushima-shrine",
+  "word": "厳島神社",
+  "acceptable": ["嚴島神社", "いつくしまじんじゃ"],
+  "neutralGloss": "穏やかな内海に浮かぶ島の、海の上に建てられたような朱塗りの社。",
+  "generalFamiliarity": 4,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "広島県の島にある神社で、海の中に立つ大きな朱色の鳥居で有名。",
+      "tier": "surface",
+      "source": "Wikipedia: 厳島神社",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "満潮のときには、社殿が海の上に浮かんでいるように見える。",
+      "tier": "surface",
+      "source": "Wikipedia: 厳島神社 / 社殿",
+      "guessability": 4
+    },
+    {
+      "id": "f3",
+      "text": "現在のような寝殿造の華やかな社殿を整えたのは、平安時代末期の武将・平清盛とされる。",
+      "tier": "specific",
+      "source": "Wikipedia: 厳島神社 / 歴史",
+      "guessability": 3
+    },
+    {
+      "id": "f4",
+      "text": "海中の大鳥居は高さ約16メートル。主柱にはクスノキの自然木が使われている。",
+      "tier": "specific",
+      "source": "Wikipedia: 厳島神社 / 大鳥居",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "1996年、同じ県の原爆ドームと同じ年に世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Itsukushima Shinto Shrine",
+      "guessability": 1
+    },
+    {
+      "id": "f6",
+      "text": "回廊の床板はわざとすき間を空けて張られており、高潮のときに下からの海水の圧力を逃がす工夫になっている。",
+      "tier": "specific",
+      "source": "Wikipedia: 厳島神社 / 社殿の構造",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "海中の大鳥居は地面に埋め込まれておらず、約60トンともいわれる自らの重さだけで立っている。",
+      "tier": "surprising",
+      "source": "Wikipedia: 厳島神社 / 大鳥居",
+      "guessability": 2
+    },
+    {
+      "id": "f8",
+      "text": "島そのものが神として信仰されてきたため、島内には墓地が無く、亡くなった人は対岸に葬る習わしが続いてきた。",
+      "tier": "surprising",
+      "source": "Wikipedia: 宮島 / 信仰と習俗",
+      "guessability": 1
+    }
+  ]
+}

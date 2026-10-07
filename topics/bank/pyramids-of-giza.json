@@ -1,0 +1,67 @@
+{
+  "id": "pyramids-of-giza",
+  "word": "ピラミッド",
+  "acceptable": ["ギザのピラミッド", "ギザの大ピラミッド", "クフ王のピラミッド", "三大ピラミッド", "金字塔", "Pyramid", "Pyramids"],
+  "neutralGloss": "灼熱の砂漠にそびえる、石を積み上げた巨大な三角形のシルエット。古代の王の眠る場所とされる。",
+  "generalFamiliarity": 5,
+  "category": "世界遺産",
+  "createdAt": "2026-10-08T12:00:00+09:00",
+  "facts": [
+    {
+      "id": "f1",
+      "text": "エジプトの砂漠に建つ、四角錐の形をした巨大な石造りの建造物。",
+      "tier": "surface",
+      "source": "Wikipedia: ギザの大ピラミッド",
+      "guessability": 5
+    },
+    {
+      "id": "f2",
+      "text": "古代エジプトの王（ファラオ）の墓として造られたとされている。",
+      "tier": "surface",
+      "source": "Wikipedia: ギザの大ピラミッド",
+      "guessability": 5
+    },
+    {
+      "id": "f3",
+      "text": "最大のものは紀元前2560年ごろ、約4500年前に完成したとされ、完成当初の高さは約146メートルあった。",
+      "tier": "specific",
+      "source": "Wikipedia: ギザの大ピラミッド / 諸元",
+      "guessability": 2
+    },
+    {
+      "id": "f4",
+      "text": "平均約2.5トンの石灰岩のブロックを、およそ230万個積み上げて造られている。",
+      "tier": "specific",
+      "source": "Wikipedia: ギザの大ピラミッド / 構造",
+      "guessability": 1
+    },
+    {
+      "id": "f5",
+      "text": "底面の4辺は、東西南北の方位にほぼ正確に合わせて建てられている。",
+      "tier": "specific",
+      "source": "Wikipedia: ギザの大ピラミッド / 方位",
+      "guessability": 2
+    },
+    {
+      "id": "f6",
+      "text": "1979年、古代都市メンフィスとその周辺の墓地遺跡の一部として世界遺産に登録された。",
+      "tier": "specific",
+      "source": "UNESCO World Heritage List: Memphis and its Necropolis",
+      "guessability": 1
+    },
+    {
+      "id": "f7",
+      "text": "完成当初は表面が白く磨かれた化粧石で覆われていたが、後の時代に建材として剥がされ、今のような段々の姿になった。",
+      "tier": "surprising",
+      "source": "Wikipedia: ギザの大ピラミッド / 化粧石",
+      "guessability": 2
+    },
+    {
+      "id": "f8",
+      "text": "14世紀にイギリスのリンカン大聖堂に抜かれるまで、約3800年にわたって人類が造った最も高い建造物だった。",
+      "tier": "surprising",
+      "source": "Wikipedia: ギザの大ピラミッド / 世界一の高さ",
+      "guessability": 1
+    }
+  ]
+}
